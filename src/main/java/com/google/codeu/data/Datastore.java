@@ -44,6 +44,9 @@ public class Datastore {
     messageEntity.setProperty("timestamp", message.getTimestamp());
 
     datastore.put(messageEntity);
+
+    //Added by Nicole for Direct Message step 4
+    messageEntity.setProperty("recipient", message.getRecipient());
   }
 
   /**
@@ -68,7 +71,11 @@ public class Datastore {
         String text = (String) entity.getProperty("text");
         long timestamp = (long) entity.getProperty("timestamp");
 
-        Message message = new Message(id, user, text, timestamp);
+        //Added by Nicole Barra for Direct Message step 4
+        String recipient = (String) entity.getProperty("recipient");
+        Message message = new Message(id, user, text, timestamp, recipient);
+
+
         messages.add(message);
       } catch (Exception e) {
         System.err.println("Error reading message.");

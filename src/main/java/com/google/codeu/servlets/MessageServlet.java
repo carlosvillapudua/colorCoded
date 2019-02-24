@@ -69,8 +69,7 @@ public class MessageServlet extends HttpServlet {
   @Override
   public void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException {
 
-    //Added by Nicole for Direct Messages step 3
-    String recipient = request.getParameter("recipient");
+
 
     UserService userService = UserServiceFactory.getUserService();
     if (!userService.isUserLoggedIn()) {
@@ -87,8 +86,6 @@ public class MessageServlet extends HttpServlet {
     Message message = new Message(user, text, recipient);
     datastore.storeMessage(message);
 
-    Message message = new Message(user, text);
-    datastore.storeMessage(message);
 
     response.sendRedirect("/user-page.html?user=" + recipient);
   }
