@@ -44,7 +44,7 @@ public class Datastore {
     messageEntity.setProperty("timestamp", message.getTimestamp());
     //Added by Nicole for Direct Message step 4
     messageEntity.setProperty("recipient", message.getRecipient());
-    
+
     datastore.put(messageEntity);
   }
 
@@ -54,12 +54,14 @@ public class Datastore {
    * @return a list of messages posted by the user, or empty list if user has never posted a
    *     message. List is sorted by time descending.
    */
-  public List<Message> getMessages(String user) {
+  public List<Message> getMessages(String recipient) {
     List<Message> messages = new ArrayList<>();
 
+    //function returns the messages where the user is the recipient instead of the author. Change in line 63 by Nicole Barra
+    //Direct Messages guide part 6.
     Query query =
         new Query("Message")
-            .setFilter(new Query.FilterPredicate("user", FilterOperator.EQUAL, user))
+            .setFilter(new Query.FilterPredicate("recipient", FilterOperator.EQUAL, recipient))
             .addSort("timestamp", SortDirection.DESCENDING);
     PreparedQuery results = datastore.prepare(query);
 
@@ -67,11 +69,13 @@ public class Datastore {
       try {
         String idString = entity.getKey().getName();
         UUID id = UUID.fromString(idString);
+        String user = (String) entity.getProperty("user");
+
+
         String text = (String) entity.getProperty("text");
         long timestamp = (long) entity.getProperty("timestamp");
 
         //Added by Nicole Barra for Direct Message step 4
-        String recipient = (String) entity.getProperty("recipient");
         Message message = new Message(id, user, text, timestamp, recipient);
 
 
