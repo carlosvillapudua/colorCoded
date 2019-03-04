@@ -37,7 +37,7 @@ public class MessageFeedServlet extends HttpServlet{
 	 
 	 response.setContentType("application/json");
 	 
-	 List<Message> messages = datastore.getAllMessages();
+	 List<Message> messages = datastore.getAllMessages(email);
 	 Gson gson = new Gson();
 	 String json = gson.toJson(messages);
   
