@@ -85,6 +85,13 @@ public class MessageServlet extends HttpServlet {
 
     Message message = new Message(user, text, recipient);
     datastore.storeMessage(message);
+    
+    /*Just checking if the recipient is being received
+
+    if(recipient!= ""){
+      System.out.println("Recipient has been received");
+    }
+    */
 
 
     response.sendRedirect("/user-page.html?user=" + recipient);

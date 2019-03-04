@@ -42,11 +42,10 @@ public class Datastore {
     messageEntity.setProperty("user", message.getUser());
     messageEntity.setProperty("text", message.getText());
     messageEntity.setProperty("timestamp", message.getTimestamp());
-
-    datastore.put(messageEntity);
-
     //Added by Nicole for Direct Message step 4
     messageEntity.setProperty("recipient", message.getRecipient());
+    
+    datastore.put(messageEntity);
   }
 
   /**
