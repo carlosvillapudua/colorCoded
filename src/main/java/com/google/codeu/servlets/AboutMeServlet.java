@@ -11,14 +11,6 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
-<<<<<<< HEAD
-=======
-import com.google.appengine.api.users.UserService;
-import com.google.appengine.api.users.UserServiceFactory;
-import com.google.codeu.data.Datastore;
-import com.google.codeu.data.User;
->>>>>>> created Java class 'user' that stores and retrieves data from the datastore java class
-
 /**
  * Handles fetching and saving user data.
  */
@@ -49,19 +41,11 @@ public class AboutMeServlet extends HttpServlet {
         }
 
         User userData = datastore.getUser(user);
-<<<<<<< HEAD
 
         if(userData == null || userData.getAboutMe() == null) {
             return;
         }
 
-=======
-
-        if(userData == null || userData.getAboutMe() == null) {
-            return;
-        }
-
->>>>>>> created Java class 'user' that stores and retrieves data from the datastore java class
         response.getOutputStream().println(userData.getAboutMe());
     }
 
