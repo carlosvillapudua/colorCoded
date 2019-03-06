@@ -61,6 +61,7 @@ public class MessageServlet extends HttpServlet {
     List<Message> messages = datastore.getMessages(user);
     Gson gson = new Gson();
     String json = gson.toJson(messages);
+    String aboutMe = Jsoup.clean(request.getParameter("about-me"), Whitelist.none());
 
     response.getWriter().println(json);
   }
