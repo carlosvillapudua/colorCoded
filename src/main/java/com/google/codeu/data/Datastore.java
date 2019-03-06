@@ -31,23 +31,64 @@ import java.util.UUID;
 /** Provides access to the data stored in Datastore. */
 public class Datastore {
 
-    private DatastoreService datastore;
 
-    public Datastore() {
-        datastore = DatastoreServiceFactory.getDatastoreService();
-    }
+  private DatastoreService datastore;
 
-    /**
-     * Stores the Message in Datastore.
-     */
-    public void storeMessage(Message message) {
-        Entity messageEntity = new Entity("Message", message.getId().toString());
-        messageEntity.setProperty("user", message.getUser());
-        messageEntity.setProperty("text", message.getText());
-        messageEntity.setProperty("timestamp", message.getTimestamp());
+  public Datastore() {
+    datastore = DatastoreServiceFactory.getDatastoreService();
+  }
 
-        datastore.put(messageEntity);
-    }
+  /** Stores the Message in Datastore. */
+  public void storeMessage(Message message) {
+    Entity messageEntity = new Entity("Message", message.getId().toString());
+    messageEntity.setProperty("user", message.getUser());
+    messageEntity.setProperty("text", message.getText());
+    messageEntity.setProperty("timestamp", message.getTimestamp());
+    //Added by Nicole for Direct Message step 4
+    messageEntity.setProperty("recipient", message.getRecipient());
+
+    datastore.put(messageEntity);
+  }
+
+  /**
+   * Gets messages posted by a specific user.
+   *
+   * @return a list of messages posted by the user, or empty list if user has never posted a
+   *     message. List is sorted by time descending.
+   */
+  public List<Message> getMessages(String recipient) {
+    List<Message> messages = new ArrayList<>();
+
+    //function returns the messages where the user is the recipient instead of the author. Change in line 63 by Nicole Barra
+    //Direct Messages guide part 6.
+    Query query =
+        new Query("Message")
+            .setFilter(new Query.FilterPredicate("recipient", FilterOperator.EQUAL, recipient))
+            .addSort("timestamp", SortDirection.DESCENDING);
+    PreparedQuery results = datastore.prepare(query);
+
+    for (Entity entity : results.asIterable()) {
+      try {
+        String idString = entity.getKey().getName();
+        UUID id = UUID.fromString(idString);
+        String user = (String) entity.getProperty("user");
+
+
+        String text = (String) entity.getProperty("text");
+        long timestamp = (long) entity.getProperty("timestamp");
+
+        //Added by Nicole Barra for Direct Message step 4
+        Message message = new Message(id, user, text, timestamp, recipient);
+
+
+        messages.add(message);
+      } catch (Exception e) {
+        System.err.println("Error reading message.");
+        System.err.println(entity.toString());
+        e.printStackTrace();
+      }
+
+   
 
     /**
      * Returns the total number of messages for all users.
@@ -58,39 +99,7 @@ public class Datastore {
         return results.countEntities(FetchOptions.Builder.withLimit(1000));
     }
 
-    /**
-     * Gets messages posted by a specific user.
-     *
-     * @return a list of messages posted by the user, or empty list if user has never posted a
-     * message. List is sorted by time descending.
-     */
-    public List<Message> getMessages(String user) {
-        List<Message> messages = new ArrayList<>();
-
-        Query query =
-                new Query("Message")
-                        .setFilter(new Query.FilterPredicate("user", FilterOperator.EQUAL, user))
-                        .addSort("timestamp", SortDirection.DESCENDING);
-        PreparedQuery results = datastore.prepare(query);
-
-        for (Entity entity : results.asIterable()) {
-            try {
-                String idString = entity.getKey().getName();
-                UUID id = UUID.fromString(idString);
-                String text = (String) entity.getProperty("text");
-                long timestamp = (long) entity.getProperty("timestamp");
-
-                Message message = new Message(id, user, text, timestamp);
-                messages.add(message);
-            } catch (Exception e) {
-                System.err.println("Error reading message.");
-                System.err.println(entity.toString());
-                e.printStackTrace();
-            }
-        }
-
-        return messages;
-    }
+    
 
 
     public List<Message> getAllMessages() {
@@ -147,5 +156,6 @@ public class Datastore {
             return user;
 
         }
+
     }
 
