@@ -14,6 +14,7 @@
  * limitations under the License.
  */
 
+console.log("Hello World");
 /**
  * Adds a login or logout link to the page, depending on whether the user is
  * already logged in.
