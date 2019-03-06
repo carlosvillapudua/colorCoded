@@ -88,7 +88,9 @@ public class Datastore {
         e.printStackTrace();
       }
 
-   
+   }
+   return messages;
+ }
 
     /**
      * Returns the total number of messages for all users.
@@ -116,8 +118,9 @@ public class Datastore {
                 String user = (String) entity.getProperty("user");
                 String text = (String) entity.getProperty("text");
                 long timestamp = (long) entity.getProperty("timestamp");
+                String recipient = (String) entity.getProperty("recipient");
 
-                Message message = new Message(id, user, text, timestamp);
+                Message message = new Message(id, user, text, timestamp,recipient);
                 messages.add(message);
             } catch (Exception e) {
                 System.err.println("Error reading message.");
