@@ -62,6 +62,7 @@ public class MessageServlet extends HttpServlet {
     List<Message> messages = datastore.getMessages(user);
     Gson gson = new Gson();
     String json = gson.toJson(messages);
+    //Line 65 causes some error, commented by Nicole Barra
     //String aboutMe = Jsoup.clean(request.getParameter("about-me"), Whitelist.none());
 
     response.getWriter().println(json);
@@ -71,18 +72,31 @@ public class MessageServlet extends HttpServlet {
   @Override
   public void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException {
 
+
+
     UserService userService = UserServiceFactory.getUserService();
     if (!userService.isUserLoggedIn()) {
       response.sendRedirect("/index.html");
       return;
     }
 
+
+    //Edited by Nicole for Direct Messages step 3
     String user = userService.getCurrentUser().getEmail();
     String text = Jsoup.clean(request.getParameter("text"), Whitelist.none());
+    String recipient = request.getParameter("recipient");
 
-    Message message = new Message(user, text);
+    Message message = new Message(user, text, recipient);
     datastore.storeMessage(message);
+    
+    /*Just checking if the recipient is being received
 
-    response.sendRedirect("/user-page.html?user=" + user);
+    if(recipient!= ""){
+      System.out.println("Recipient has been received");
+    }
+    */
+
+
+    response.sendRedirect("/user-page.html?user=" + recipient);
   }
 }
