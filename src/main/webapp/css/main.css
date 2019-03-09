@@ -18,6 +18,10 @@
 body {
   max-width: 600px;
 }
+p{
+    font-family: sans-serif;
+    
+}
 
 /* Remove bullet points from navigation bar. */
 nav ul {
