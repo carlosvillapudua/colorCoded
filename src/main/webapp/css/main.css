@@ -15,11 +15,11 @@ nav {
 }
 
 nav a {
-  color: blue;
+  color: white;
   margin-right: 10px;
 }
 h1{
-    color: black;
+    color: white;
     font-family: sans-serif;
     text-align: center;
 }
@@ -65,7 +65,7 @@ align-content: center;
 .panel {
   background-color: black;
   margin-top: 20px;
-    border-radius: 5px;
+  border-radius: 7px;
 }
 
 .centered{
@@ -78,7 +78,7 @@ align-content: center;
 
 .rounded {
   border: thick solid black;
-    background-color: white;
+  background-color: white;
   overflow: hidden;
 }
 
