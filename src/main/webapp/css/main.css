@@ -22,6 +22,7 @@ h1{
     color: white;
     font-family: sans-serif;
     text-align: center;
+    font-size: 70px;
 }
 
 h2 {
@@ -53,6 +54,7 @@ align-content: center;
 .message-header {
   border-bottom: thick solid white;
   background-image: white;
+  font-family: sans-serif;
 }
 
 .message-body {
