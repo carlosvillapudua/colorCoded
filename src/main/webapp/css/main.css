@@ -29,11 +29,11 @@ h2 {
 }
 
 input[type=submit] {
-  background-color: black;
+  background-color: white;
   height: 50px;
   width: 100px;
   font-size: 14pt;
-  color: blue;
+  color: white;
 }
 
 #content {
@@ -51,12 +51,15 @@ align-content: center;
 }
 
 .message-header {
-  border-bottom: thin solid white;
+  border-bottom: thick solid white;
   background-image: white;
 }
 
 .message-body {
   font: 12pt serif;
+}
+.message-div{
+    border: thick solid white;
 }
 
 .panel {
@@ -73,7 +76,7 @@ align-content: center;
 }
 
 .rounded {
-  border: thin solid white;
+  border: thick solid white;
   border-radius: 10px;
   overflow: hidden;
 }
