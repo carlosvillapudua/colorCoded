@@ -1,20 +1,20 @@
 body {
   margin: 0;
-  background: black;
+  background: white;
   font-family: monospace;
-  color: lawngreen;
+  color: black;
   padding-left: 20px;
   padding-right: 20px;
 }
 
 nav {
-  background-color: linear-gradient(to left, white, #ffd3b5);
+  background-color: white;
   font-size: 18pt;
   padding: 10px;
 }
 
 nav a {
-  color: lawngreen;
+  color: blue;
   margin-right: 10px;
 }
 
@@ -23,10 +23,11 @@ h2 {
 }
 
 input[type=submit] {
-  background-color: #ffd3b5;
+  background-color: black;
   height: 50px;
   width: 100px;
   font-size: 14pt;
+  color: blue;
 }
 
 #content {
@@ -43,7 +44,7 @@ input[type=submit] {
 
 .message-header {
   border-bottom: thin solid black;
-  background-image: linear-gradient(to left, white , #ffd3b5);
+  background-image: white;
 }
 
 .message-body {
