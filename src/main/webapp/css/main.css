@@ -63,7 +63,7 @@ align-content: center;
 }
 
 .panel {
-  background-color: blue;
+  background-color: black;
   margin-top: 20px;
     border-radius: 5px;
 }
@@ -78,6 +78,7 @@ align-content: center;
 
 .rounded {
   border: thick solid black;
+    background-color: white;
   overflow: hidden;
 }
 
