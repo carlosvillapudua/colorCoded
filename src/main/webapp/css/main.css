@@ -57,6 +57,11 @@ align-content: center;
   font-family: sans-serif;
 }
 
+.usernameFormat{
+    font-weight: bold;
+    color: #9abfb6;
+}
+
 .message-body {
   font: 12pt serif;
 }
