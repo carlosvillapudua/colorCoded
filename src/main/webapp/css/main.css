@@ -37,6 +37,7 @@ h2 {
 
 input[type=submit] {
   background-color: white;
+  font-weight: bold;
   height: 50px;
   width: 100px;
   font-size: 14pt;
