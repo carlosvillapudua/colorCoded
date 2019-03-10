@@ -8,10 +8,16 @@ body {
   align-content: center;
 }
 
+p{
+    color:white;
+    font-family: sans-serif;
+}
+
 nav {
-  background-color: white;
+  background-color: black;
   font-size: 18pt;
   padding: 10px;
+  color: white;
 }
 
 nav a {
