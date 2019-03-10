@@ -50,6 +50,8 @@
    
    const messageDiv = document.createElement('div');
    messageDiv.classList.add("message-div");
+  messageDiv.classList.add("panel");
+   messageDiv.classList.add("rounded");
    messageDiv.appendChild(headerDiv);
    messageDiv.appendChild(bodyDiv);
    
@@ -63,7 +65,7 @@
 </script>
 </head>
 <body onload="buildUI()">
- <div id="content">
+ <div id="content" class="panel">
   <h1>Message Feed</h1>
   <hr/>
   <div id="message-container">Loading...</div>
