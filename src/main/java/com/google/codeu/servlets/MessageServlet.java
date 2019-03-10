@@ -84,9 +84,14 @@ public class MessageServlet extends HttpServlet {
     //Edited by Nicole for Direct Messages step 3
     String user = userService.getCurrentUser().getEmail();
     String text = Jsoup.clean(request.getParameter("text"), Whitelist.none());
+
     String recipient = request.getParameter("recipient");
 
-    Message message = new Message(user, text, recipient);
+    String regex = "(https?://\\S+\\.(png|jpg))";
+    String replacement = "<img src=\"$1\" />";
+    String textWithImagesReplaced = text.replaceAll(regex, replacement);
+
+    Message message = new Message(user, textWithImagesReplaced, recipient);
     datastore.storeMessage(message);
     
     /*Just checking if the recipient is being received
