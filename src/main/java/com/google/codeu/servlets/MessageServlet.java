@@ -99,6 +99,7 @@ public class MessageServlet extends HttpServlet {
 
     Message message = new Message(user, cleanedContent, recipient);
     datastore.storeMessage(message);
+
     
     /*Just checking if the recipient is being received
 
