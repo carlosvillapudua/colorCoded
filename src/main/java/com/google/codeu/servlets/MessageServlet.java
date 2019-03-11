@@ -91,7 +91,13 @@ public class MessageServlet extends HttpServlet {
     String replacement = "<img src=\"$1\" />";
     String textWithImagesReplaced = text.replaceAll(regex, replacement);
 
-    Message message = new Message(user, textWithImagesReplaced, recipient);
+    //Added by Timi to replace markup with html
+    String parsedContent = textWithImagesReplaced.replace("[b]", "<strong>").replace("[/b]", "</strong>");
+
+    //Added by Timi to make sure generated html is valid and all tags are closed
+    String cleanedContent = Jsoup.clean(parsedContent, Whitelist.none().addTags("strong"));
+
+    Message message = new Message(user, cleanedContent, recipient);
     datastore.storeMessage(message);
     
     /*Just checking if the recipient is being received
@@ -105,3 +111,4 @@ public class MessageServlet extends HttpServlet {
     response.sendRedirect("/user-page.html?user=" + recipient);
   }
 }
+
