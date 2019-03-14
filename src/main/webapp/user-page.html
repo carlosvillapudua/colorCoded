@@ -24,7 +24,6 @@ limitations under the License.
     
       
     <script src="/js/user-page-loader.js"></script>
-    <script src="../ckeditor.js"></script>
   </head>
   <body onload="buildUI();">
     <nav>
@@ -38,7 +37,6 @@ limitations under the License.
       Enter a new message:
       <br/>
       <textarea name="text" id="message-input"></textarea>
-      CKEDITOR.replace(text);
       <br/>
       <input type="submit" value="Submit">
     </form>
@@ -49,7 +47,6 @@ limitations under the License.
     <div id="about-me-form" class="hidden">
       <form action="/about" method="POST">
         <textarea name="about-me" placeholder="Share something!" rows=4 required></textarea>
-        CKEDITOR.replace(about-me);
         <br/>
         <input type="submit" value="Submit">
       </form>
