@@ -91,11 +91,28 @@ public class MessageServlet extends HttpServlet {
     String replacement = "<img src=\"$1\" />";
     String textWithImagesReplaced = text.replaceAll(regex, replacement);
 
-    //Added by Timi to replace markup with html
+    // Edited by Timi for Styled Text pt1
+    //System.out.println( "Image Text: " + textWithImagesReplaced );
+
     String parsedContent = textWithImagesReplaced.replace("[b]", "<strong>").replace("[/b]", "</strong>");
 
-    //Added by Timi to make sure generated html is valid and all tags are closed
-    String cleanedContent = Jsoup.clean(parsedContent, Whitelist.none().addTags("strong"));
+    //System.out.println( "Parse Text for Bold: " + parsedContent );
+
+    parsedContent = parsedContent.replace("[i]", "<i>").replace("[/i]", "</i>");
+
+    //System.out.println( "Parse Text for Italics: " + parsedContent );
+
+    parsedContent = parsedContent.replace("[u]", "<ins>").replace("[/u]", "</ins>");
+
+    //System.out.println("Parse Text for underline: " + parsedContent );
+
+    parsedContent = parsedContent.replace("[s]", "<del>").replace("[/s]", "</del>");
+
+    //System.out.println("Parse Text for StrikeThrough: " + parsedContent );
+
+    //make sure generated HTML is valid and all tags are closed
+    String cleanedContent = Jsoup.clean(parsedContent, Whitelist.none().addTags("strong", "i", "u"));
+
 
     Message message = new Message(user, cleanedContent, recipient);
     datastore.storeMessage(message);
