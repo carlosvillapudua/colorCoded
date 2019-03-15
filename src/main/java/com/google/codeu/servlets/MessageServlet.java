@@ -91,8 +91,9 @@ public class MessageServlet extends HttpServlet {
     String replacement = "<img src=\"$1\" />";
     String textWithImagesReplaced = text.replaceAll(regex, replacement);
 
-    // Edited by Timi for Styled Text pt1
+
     //System.out.println( "Image Text: " + textWithImagesReplaced );
+    // Edited by Timi for Styled Text pt1
 
     String parsedContent = textWithImagesReplaced.replace("[b]", "<strong>").replace("[/b]", "</strong>");
 
@@ -104,14 +105,14 @@ public class MessageServlet extends HttpServlet {
 
     parsedContent = parsedContent.replace("[u]", "<ins>").replace("[/u]", "</ins>");
 
-    //System.out.println("Parse Text for underline: " + parsedContent );
+    System.out.println("Parse Text for underline: " + parsedContent );
 
     parsedContent = parsedContent.replace("[s]", "<del>").replace("[/s]", "</del>");
 
-    //System.out.println("Parse Text for StrikeThrough: " + parsedContent );
+    System.out.println("Parse Text for StrikeThrough: " + parsedContent );
 
     //make sure generated HTML is valid and all tags are closed
-    String cleanedContent = Jsoup.clean(parsedContent, Whitelist.none().addTags("strong", "i", "u"));
+    String cleanedContent = Jsoup.clean(parsedContent, Whitelist.none().addTags("strong", "i", "ins", "del"));
 
 
     Message message = new Message(user, cleanedContent, recipient);
