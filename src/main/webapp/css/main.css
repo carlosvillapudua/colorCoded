@@ -1,6 +1,6 @@
 body {
   margin: 0;
-  background-color: black;
+  background-color: yellow;
   font-family: sans-serif;
   color: black;
   padding-left: 20px;
@@ -9,23 +9,23 @@ body {
 }
 
 p{
-    color:white;
+    color:black;
     font-family: sans-serif;
 }
 
 nav {
-  background-color: black;
+  background-color: yellow;
   font-size: 18pt;
   padding: 10px;
-  color: white;
+  color: black;
 }
 
 nav a {
-  color: white;
+  color: black;
   margin-right: 10px;
 }
 h1{
-    color: white;
+    color: black;
     font-family: sans-serif;
     text-align: center;
     font-size: 70px;
