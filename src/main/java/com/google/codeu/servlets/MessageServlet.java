@@ -21,14 +21,15 @@ import com.google.appengine.api.users.UserServiceFactory;
 import com.google.codeu.data.Datastore;
 import com.google.codeu.data.Message;
 import com.google.gson.Gson;
-import java.io.IOException;
-import java.util.List;
+import org.jsoup.Jsoup;
+import org.jsoup.safety.Whitelist;
+
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import org.jsoup.Jsoup;
-import org.jsoup.safety.Whitelist;
+import java.io.IOException;
+import java.util.List;
 
 /** Handles fetching and saving {@link Message} instances. */
 @WebServlet("/messages")
@@ -64,7 +65,6 @@ public class MessageServlet extends HttpServlet {
     //Line 65 causes some error, commented by Nicole Barra
     //String aboutMe = Jsoup.clean(request.getParameter("about-me"), Whitelist.none());
 
-
     response.getWriter().println(json);
   }
 
@@ -91,8 +91,32 @@ public class MessageServlet extends HttpServlet {
     String replacement = "<img src=\"$1\" />";
     String textWithImagesReplaced = text.replaceAll(regex, replacement);
 
-    Message message = new Message(user, textWithImagesReplaced, recipient);
+    // Edited by Timi for Styled Text pt1
+    //System.out.println( "Image Text: " + textWithImagesReplaced );
+
+    String parsedContent = textWithImagesReplaced.replace("[b]", "<strong>").replace("[/b]", "</strong>");
+
+    //System.out.println( "Parse Text for Bold: " + parsedContent );
+
+    parsedContent = parsedContent.replace("[i]", "<i>").replace("[/i]", "</i>");
+
+    //System.out.println( "Parse Text for Italics: " + parsedContent );
+
+    parsedContent = parsedContent.replace("[u]", "<ins>").replace("[/u]", "</ins>");
+
+    //System.out.println("Parse Text for underline: " + parsedContent );
+
+    parsedContent = parsedContent.replace("[s]", "<del>").replace("[/s]", "</del>");
+
+    //System.out.println("Parse Text for StrikeThrough: " + parsedContent );
+
+    //make sure generated HTML is valid and all tags are closed
+    String cleanedContent = Jsoup.clean(parsedContent, Whitelist.none().addTags("strong", "i", "u"));
+
+
+    Message message = new Message(user, cleanedContent, recipient);
     datastore.storeMessage(message);
+
     
     /*Just checking if the recipient is being received
 
@@ -105,3 +129,4 @@ public class MessageServlet extends HttpServlet {
     response.sendRedirect("/user-page.html?user=" + recipient);
   }
 }
+
