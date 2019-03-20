@@ -86,7 +86,7 @@ function buildMessageDiv(message) {
   const bodyDiv = document.createElement('div');
   bodyDiv.classList.add('message-body');
   bodyDiv.innerHTML = message.text;
-
+  console.log(message);
   const messageDiv = document.createElement('div');
   messageDiv.classList.add('message-div');
   messageDiv.appendChild(headerDiv);
@@ -101,6 +101,7 @@ function buildUI() {
   showMessageFormIfLoggedIn();
   fetchMessages();
   fetchAboutMe();
+  ClassicEditor.create( document.getElementById('message-input') );
 }
 function fetchAboutMe(){
   const url = '/about?user=' + parameterUsername;
