@@ -30,22 +30,26 @@ public class Message {
 
   private String recipient;
 
+
+  private float sentimentScore;
+
   /**
    * Constructs a new {@link Message} posted by {@code user} with {@code text} content. Generates a
    * random ID and uses the current system time for the creation time.
    */
 
   //Edited constructors by Nicole (Step 2 Direct Messages)
-  public Message(String user, String text, String recipient) {
-  this(UUID.randomUUID(), user, text, System.currentTimeMillis(), recipient);
+  public Message(String user, String text, String recipient, float sentimentScore) {
+  this(UUID.randomUUID(), user, text, System.currentTimeMillis(), recipient, sentimentScore);
   }
 
-public Message(UUID id, String user, String text, long timestamp, String recipient) {
+public Message(UUID id, String user, String text, long timestamp, String recipient, float sentimentScore) {
   this.id = id;
   this.user = user;
   this.text = text;
   this.timestamp = timestamp;
   this.recipient = recipient;
+  this.sentimentScore = sentimentScore;
   }
 
   public UUID getId() {
@@ -68,4 +72,8 @@ public Message(UUID id, String user, String text, long timestamp, String recipie
   public String getRecipient(){
   return recipient;
 }
+
+  public float getSentimentScore(){
+    return sentimentScore;
+  }
 }
