@@ -76,9 +76,10 @@ public class Datastore {
 
         String text = (String) entity.getProperty("text");
         long timestamp = (long) entity.getProperty("timestamp");
+        float sentimentScore = (float) entity.getProperty("sentimentScore");
 
         //Added by Nicole Barra for Direct Message step 4
-        Message message = new Message(id, user, text, timestamp, recipient);
+        Message message = new Message(id, user, text, timestamp, recipient, sentimentScore);
 
 
         messages.add(message);
@@ -119,8 +120,9 @@ public class Datastore {
                 String text = (String) entity.getProperty("text");
                 long timestamp = (long) entity.getProperty("timestamp");
                 String recipient = (String) entity.getProperty("recipient");
+                float sentimentScore = (float) entity.getProperty("sentimentScore");
 
-                Message message = new Message(id, user, text, timestamp,recipient);
+                Message message = new Message(id, user, text, timestamp,recipient,sentimentScore);
                 messages.add(message);
             } catch (Exception e) {
                 System.err.println("Error reading message.");
