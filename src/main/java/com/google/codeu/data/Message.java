@@ -17,7 +17,6 @@
 package com.google.codeu.data;
 
 import java.util.UUID;
-
 /** A single message posted by a user. */
 public class Message {
 
@@ -31,7 +30,7 @@ public class Message {
   private String recipient;
 
 
-  private float sentimentScore;
+  private double sentimentScore;
 
   /**
    * Constructs a new {@link Message} posted by {@code user} with {@code text} content. Generates a
@@ -39,11 +38,11 @@ public class Message {
    */
 
   //Edited constructors by Nicole (Step 2 Direct Messages)
-  public Message(String user, String text, String recipient, float sentimentScore) {
+  public Message(String user, String text, String recipient, double sentimentScore) {
   this(UUID.randomUUID(), user, text, System.currentTimeMillis(), recipient, sentimentScore);
   }
 
-public Message(UUID id, String user, String text, long timestamp, String recipient, float sentimentScore) {
+public Message(UUID id, String user, String text, long timestamp, String recipient, double sentimentScore) {
   this.id = id;
   this.user = user;
   this.text = text;
@@ -73,7 +72,7 @@ public Message(UUID id, String user, String text, long timestamp, String recipie
   return recipient;
 }
 
-  public float getSentimentScore(){
+  public double getSentimentScore(){
     return sentimentScore;
   }
 }

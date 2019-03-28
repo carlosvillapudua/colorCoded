@@ -31,6 +31,7 @@ import java.util.UUID;
 /** Provides access to the data stored in Datastore. */
 public class Datastore {
 
+//<<<<<<< HEAD
 
   private DatastoreService datastore;
 
@@ -46,6 +47,7 @@ public class Datastore {
     messageEntity.setProperty("timestamp", message.getTimestamp());
     //Added by Nicole for Direct Message step 4
     messageEntity.setProperty("recipient", message.getRecipient());
+    messageEntity.setProperty("sentimentScore", message.getSentimentScore());
 
     datastore.put(messageEntity);
   }
@@ -69,6 +71,8 @@ public class Datastore {
 
     for (Entity entity : results.asIterable()) {
       try {
+        System.out.println("I am here");
+
         String idString = entity.getKey().getName();
         UUID id = UUID.fromString(idString);
         String user = (String) entity.getProperty("user");
@@ -76,7 +80,7 @@ public class Datastore {
 
         String text = (String) entity.getProperty("text");
         long timestamp = (long) entity.getProperty("timestamp");
-        float sentimentScore = (float) entity.getProperty("sentimentScore");
+        double sentimentScore = (double) entity.getProperty("sentimentScore");
 
         //Added by Nicole Barra for Direct Message step 4
         Message message = new Message(id, user, text, timestamp, recipient, sentimentScore);
@@ -162,5 +166,42 @@ public class Datastore {
 
         }
 
-    }
+    
+
+
+
+	
+
+	public List<UserMarker> getMarkers() {
+		List<UserMarker> markers = new ArrayList<>();
+
+		Query query = new Query("UserMarker");
+		PreparedQuery results = datastore.prepare(query);
+
+		for (Entity entity : results.asIterable()) {
+			try {
+				double lat = (double) entity.getProperty("lat");
+				double lng = (double) entity.getProperty("lng");
+				String content = (String) entity.getProperty("content");
+
+				UserMarker marker = new UserMarker(lat, lng, content);
+				markers.add(marker);
+			} catch (Exception e) {
+				System.err.println("Error reading marker.");
+				System.err.println(entity.toString());
+				e.printStackTrace();
+			}
+		}
+		return markers;
+	}
+
+	public void storeMarker(UserMarker marker) {
+		Entity markerEntity = new Entity("UserMarker");
+		markerEntity.setProperty("lat", marker.getLat());
+		markerEntity.setProperty("lng", marker.getLng());
+		markerEntity.setProperty("content", marker.getContent());
+		datastore.put(markerEntity);
+	}
+
+}
 
