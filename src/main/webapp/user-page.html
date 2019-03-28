@@ -19,8 +19,10 @@ limitations under the License.
   <head>
     <title>User Page</title>
     <meta charset="UTF-8">
-    <link rel="stylesheet" href="/css/main.css">
-    <link rel="stylesheet" href="/css/user-page.css">
+    <link rel="stylesheet" href="css/main.css">
+    <link rel="stylesheet" href="css/user-page.css">
+
+    <script src="https://cdn.ckeditor.com/ckeditor5/11.2.0/classic/ckeditor.js"></script>
     <script src="/js/user-page-loader.js"></script>
   </head>
   <body onload="buildUI();">
@@ -44,7 +46,7 @@ limitations under the License.
     <div id="about-me-container">Loading...</div>
     <div id="about-me-form" class="hidden">
       <form action="/about" method="POST">
-        <textarea name="about-me" placeholder="about me" rows=4 required></textarea>
+        <textarea name="about-me" placeholder="Share something!" rows=4 required></textarea>
         <br/>
         <input type="submit" value="Submit">
       </form>

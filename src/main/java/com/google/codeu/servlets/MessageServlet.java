@@ -21,12 +21,14 @@ import com.google.appengine.api.users.UserServiceFactory;
 import com.google.codeu.data.Datastore;
 import com.google.codeu.data.Message;
 import com.google.gson.Gson;
-import java.io.IOException;
-import java.util.List;
+import org.jsoup.Jsoup;
+import org.jsoup.safety.Whitelist;
+
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+
 import org.jsoup.Jsoup;
 import org.jsoup.safety.Whitelist;
 import com.google.cloud.language.v1.Document;
@@ -37,6 +39,9 @@ import com.google.cloud.language.v1.LanguageServiceClient;
 
 import com.google.cloud.language.v1.Sentiment;
 
+
+import java.io.IOException;
+import java.util.List;
 
 /** Handles fetching and saving {@link Message} instances. */
 @WebServlet("/messages")
@@ -72,7 +77,6 @@ public class MessageServlet extends HttpServlet {
     //Line 65 causes some error, commented by Nicole Barra
     //String aboutMe = Jsoup.clean(request.getParameter("about-me"), Whitelist.none());
 
-
     response.getWriter().println(json);
   }
 
@@ -92,11 +96,43 @@ public class MessageServlet extends HttpServlet {
     //Edited by Nicole for Direct Messages step 3
     String user = userService.getCurrentUser().getEmail();
     String text = Jsoup.clean(request.getParameter("text"), Whitelist.none());
+
     String recipient = request.getParameter("recipient");
     float sentimentScore = getSentimentScore(text);
 
-    Message message = new Message(user, text, recipient, sentimentScore);
+
+    String regex = "(https?://\\S+\\.(png|jpg))";
+    String replacement = "<img src=\"$1\" />";
+    String textWithImagesReplaced = text.replaceAll(regex, replacement);
+
+
+    //System.out.println( "Image Text: " + textWithImagesReplaced );
+    // Edited by Timi for Styled Text pt1
+
+    String parsedContent = textWithImagesReplaced.replace("[b]", "<strong>").replace("[/b]", "</strong>");
+
+    //System.out.println( "Parse Text for Bold: " + parsedContent );
+
+    parsedContent = parsedContent.replace("[i]", "<i>").replace("[/i]", "</i>");
+
+    //System.out.println( "Parse Text for Italics: " + parsedContent );
+
+    parsedContent = parsedContent.replace("[u]", "<ins>").replace("[/u]", "</ins>");
+
+    System.out.println("Parse Text for underline: " + parsedContent );
+
+    parsedContent = parsedContent.replace("[s]", "<del>").replace("[/s]", "</del>");
+
+    System.out.println("Parse Text for StrikeThrough: " + parsedContent );
+
+    //make sure generated HTML is valid and all tags are closed
+    String cleanedContent = Jsoup.clean(parsedContent, Whitelist.none().addTags("strong", "i", "ins", "del"));
+
+
+    Message message = new Message(user, cleanedContent, recipient, sentimentScore);
+
     datastore.storeMessage(message);
+
     
     /*Just checking if the recipient is being received
 
@@ -129,3 +165,4 @@ public class MessageServlet extends HttpServlet {
 
   }
 }
+
