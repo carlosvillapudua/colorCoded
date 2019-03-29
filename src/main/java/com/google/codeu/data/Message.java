@@ -24,6 +24,7 @@ public class Message {
   private String user;
   private String text;
   private long timestamp;
+  private String imageUrl;
 
   //Added by Nicole (Step 2 Direct Message)
 
@@ -50,6 +51,10 @@ public Message(UUID id, String user, String text, long timestamp, String recipie
   this.recipient = recipient;
   this.sentimentScore = sentimentScore;
   }
+
+  public String getImageUrl() { return imageUrl; }
+
+  public void setImageUrl(String setImage) { imageUrl = setImage; }
 
   public UUID getId() {
     return id;
