@@ -34,6 +34,18 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+
+import org.jsoup.Jsoup;
+import org.jsoup.safety.Whitelist;
+import com.google.cloud.language.v1.Document;
+
+import com.google.cloud.language.v1.Document.Type;
+
+import com.google.cloud.language.v1.LanguageServiceClient;
+
+import com.google.cloud.language.v1.Sentiment;
+
+
 import java.io.IOException;
 import java.util.List;
 import java.util.Map;
@@ -97,6 +109,8 @@ public class MessageServlet extends HttpServlet {
     List<BlobKey> blobKeys = blobs.get("image");
 
     String recipient = request.getParameter("recipient");
+    float sentimentScore = getSentimentScore(text);
+
 
     String regex = "(https?://\\S+\\.(png|jpg))";
     String replacement = "<img src=\"$1\" />";
@@ -126,7 +140,10 @@ public class MessageServlet extends HttpServlet {
     String cleanedContent = Jsoup.clean(parsedContent, Whitelist.none().addTags("strong", "i", "ins", "del"));
 
 
-    Message message = new Message(user, cleanedContent, recipient);
+
+    Message message = new Message(user, cleanedContent, recipient, sentimentScore);
+
+  
 
     if(blobKeys != null && !blobKeys.isEmpty()) {
       BlobKey blobKey = blobKeys.get(0);
@@ -135,6 +152,7 @@ public class MessageServlet extends HttpServlet {
       String imageUrl = imagesService.getServingUrl(options);
       message.setImageUrl(imageUrl);
     }
+
 
     datastore.storeMessage(message);
 
@@ -148,6 +166,26 @@ public class MessageServlet extends HttpServlet {
 
 
     response.sendRedirect("/user-page.html?user=" + recipient);
+  }
+
+  // New function by Nicole Barra for SEntiment Analysis
+
+  private float getSentimentScore(String text) throws IOException {
+
+  Document doc = Document.newBuilder()
+
+      .setContent(text).setType(Type.PLAIN_TEXT).build();
+
+
+  LanguageServiceClient languageService = LanguageServiceClient.create();
+
+  Sentiment sentiment = languageService.analyzeSentiment(doc).getDocumentSentiment();
+
+  languageService.close();
+
+
+  return sentiment.getScore();
+
   }
 }
 

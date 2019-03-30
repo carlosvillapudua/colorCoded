@@ -54,17 +54,28 @@ function fetchImageUploadUrlAndShowForm() {
       .then((response) => {
         return response.text();
       })
+
+      .then((loginStatus) => {
+        if (loginStatus.isLoggedIn) {
+          const messageForm = document.getElementById('message-form');
+          messageForm.action = '/messages?recipient='  + parameterUsername;
+          messageForm.classList.remove('hidden');
+        }
+        document.getElementById('about-me-form').classList.remove('hidden');
+
       .then((imageUploadUrl) => {
         const messageForm = document.getElementById('message-form');
         messageForm.action = imageUploadUrl;
         messageForm.classList.remove('hidden');
         document.getElementById('recipientInput').value = parameterUsername;
+
       });
 }
 
 
 /** Fetches messages and add them to the page. */
 function fetchMessages() {
+  console.log('checking');
   const url = '/messages?user=' + parameterUsername;
   fetch(url)
       .then((response) => {
@@ -93,7 +104,9 @@ function buildMessageDiv(message) {
   const headerDiv = document.createElement('div');
   headerDiv.classList.add('message-header');
   headerDiv.appendChild(document.createTextNode(
-      message.user + ' - ' + new Date(message.timestamp)));
+      message.user + ' - ' + new Date(message.timestamp)+ 
+
+    ' [' + message.sentimentScore + ']'));
 
   const bodyDiv = document.createElement('div');
   bodyDiv.classList.add('message-body');
