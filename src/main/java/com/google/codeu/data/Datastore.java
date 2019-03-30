@@ -31,8 +31,11 @@ import java.util.UUID;
 /** Provides access to the data stored in Datastore. */
 public class Datastore {
 
+<<<<<<< HEAD
 //<<<<<<< HEAD
 
+=======
+>>>>>>> 439a2631f3401c8af3aaafa9a7cbe7f68d62ad6a
   private DatastoreService datastore;
 
   public Datastore() {
@@ -47,8 +50,14 @@ public class Datastore {
     messageEntity.setProperty("timestamp", message.getTimestamp());
     //Added by Nicole for Direct Message step 4
     messageEntity.setProperty("recipient", message.getRecipient());
+<<<<<<< HEAD
     messageEntity.setProperty("sentimentScore", message.getSentimentScore());
 
+=======
+    if(message.getImageUrl() != null) {
+        messageEntity.setProperty("imageUrl", message.getImageUrl());
+    }
+>>>>>>> 439a2631f3401c8af3aaafa9a7cbe7f68d62ad6a
     datastore.put(messageEntity);
   }
 
@@ -71,7 +80,6 @@ public class Datastore {
 
     for (Entity entity : results.asIterable()) {
       try {
-        System.out.println("I am here");
 
         String idString = entity.getKey().getName();
         UUID id = UUID.fromString(idString);
@@ -80,11 +88,18 @@ public class Datastore {
 
         String text = (String) entity.getProperty("text");
         long timestamp = (long) entity.getProperty("timestamp");
+
         double sentimentScore = (double) entity.getProperty("sentimentScore");
 
         //Added by Nicole Barra for Direct Message step 4
         Message message = new Message(id, user, text, timestamp, recipient, sentimentScore);
 
+
+        String imageUrl = (String) entity.getProperty("imageUrl");
+
+
+
+        message.setImageUrl(imageUrl);
 
         messages.add(message);
       } catch (Exception e) {
@@ -124,9 +139,14 @@ public class Datastore {
                 String text = (String) entity.getProperty("text");
                 long timestamp = (long) entity.getProperty("timestamp");
                 String recipient = (String) entity.getProperty("recipient");
+
                 float sentimentScore = (float) entity.getProperty("sentimentScore");
 
                 Message message = new Message(id, user, text, timestamp,recipient,sentimentScore);
+
+                String imageUrl = (String) entity.getProperty("imageUrl");
+                message.setImageUrl(imageUrl);
+
                 messages.add(message);
             } catch (Exception e) {
                 System.err.println("Error reading message.");
@@ -166,6 +186,7 @@ public class Datastore {
 
         }
 
+
     
 
 
@@ -173,6 +194,8 @@ public class Datastore {
 	
 
 	public List<UserMarker> getMarkers() {
+
+  
 		List<UserMarker> markers = new ArrayList<>();
 
 		Query query = new Query("UserMarker");
@@ -202,6 +225,7 @@ public class Datastore {
 		markerEntity.setProperty("content", marker.getContent());
 		datastore.put(markerEntity);
 	}
+
 
 }
 
