@@ -55,19 +55,15 @@ function fetchImageUploadUrlAndShowForm() {
         return response.text();
       })
 
-      .then((loginStatus) => {
-        if (loginStatus.isLoggedIn) {
-          const messageForm = document.getElementById('message-form');
-          messageForm.action = '/messages?recipient='  + parameterUsername;
-          messageForm.classList.remove('hidden');
-        }
-        document.getElementById('about-me-form').classList.remove('hidden');
+      
 
       .then((imageUploadUrl) => {
         const messageForm = document.getElementById('message-form');
         messageForm.action = imageUploadUrl;
         messageForm.classList.remove('hidden');
         document.getElementById('recipientInput').value = parameterUsername;
+
+
 
       });
 }
