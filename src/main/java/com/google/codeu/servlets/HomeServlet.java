@@ -29,6 +29,6 @@ public class HomeServlet extends HttpServlet {
 
         //send to error page if page doesn't exist
 
-        request.getRequestDispatcher("/WEB-INF/index.jsp").forward(request,response);
+        request.getRequestDispatcher("/index.jsp").forward(request,response);
     }
 }

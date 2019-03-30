@@ -23,6 +23,8 @@
     <nav>
       <ul id="navigation">
         <li><a href="/">Home</a></li>
+        <li><a href="/map.html">Map</a></li>
+        <li><a href="/feed.html">Public Feed</a></li>
       </ul>
     </nav>
     <h1 id="page-title"><%= user %></h1>
@@ -33,9 +35,7 @@
     <% if(isUserLoggedIn && isViewingSelf){ %>
     <form id="about-me-form" action="/about" method="POST" class>
       <br/>
-      Update AboutMe:
-      <br/>
-      <textarea name="about-me" placeholder="Share Something" id="about-me-input"></textarea>
+      <textarea name="about-me" placeholder="Share Something!" id="about-me-input"rows=4 required></textarea>
       <br/>
       <input type="submit" value="Submit">
     </form>

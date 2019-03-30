@@ -37,12 +37,14 @@ public class AboutMeServlet extends HttpServlet {
 
         if(user == null || user.equals("")) {
             // Request is invalid, return empty response
+            response.sendRedirect("/");
             return;
         }
 
         User userData = datastore.getUser(user);
 
         if(userData == null || userData.getAboutMe() == null) {
+            response.getOutputStream().println("This page is empty :(");
             return;
         }
 
@@ -55,7 +57,7 @@ public class AboutMeServlet extends HttpServlet {
 
         UserService userService = UserServiceFactory.getUserService();
         if (!userService.isUserLoggedIn()) {
-            response.sendRedirect("/home");
+            response.sendRedirect("/");
             return;
         }
 
