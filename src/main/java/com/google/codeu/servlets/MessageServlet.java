@@ -45,6 +45,20 @@ import com.google.cloud.language.v1.LanguageServiceClient;
 
 import com.google.cloud.language.v1.Sentiment;
 
+import com.google.cloud.vision.v1.AnnotateImageRequest;
+import com.google.cloud.vision.v1.AnnotateImageResponse;
+import com.google.cloud.vision.v1.BatchAnnotateImagesResponse;
+import com.google.cloud.vision.v1.EntityAnnotation;
+import com.google.cloud.vision.v1.Feature;
+import com.google.cloud.vision.v1.Image;
+import com.google.cloud.vision.v1.ImageAnnotatorClient;
+import com.google.protobuf.ByteString;
+import java.io.FileInputStream;
+import java.util.ArrayList;
+import java.io.ByteArrayOutputStream;
+import java.util.stream.Collectors; 
+
+
 
 import java.io.IOException;
 import java.util.List;
@@ -108,6 +122,8 @@ public class MessageServlet extends HttpServlet {
     Map<String, List<BlobKey>> blobs = blobstoreService.getUploads(request);
     List<BlobKey> blobKeys = blobs.get("image");
 
+    
+
     String recipient = request.getParameter("recipient");
     float sentimentScore = getSentimentScore(text);
 
@@ -121,21 +137,13 @@ public class MessageServlet extends HttpServlet {
     // Edited by Timi for Styled Text pt1
 
     String parsedContent = textWithImagesReplaced.replace("[b]", "<strong>").replace("[/b]", "</strong>");
-
     //System.out.println( "Parse Text for Bold: " + parsedContent );
-
     parsedContent = parsedContent.replace("[i]", "<i>").replace("[/i]", "</i>");
-
     //System.out.println( "Parse Text for Italics: " + parsedContent );
-
     parsedContent = parsedContent.replace("[u]", "<ins>").replace("[/u]", "</ins>");
-
     System.out.println("Parse Text for underline: " + parsedContent );
-
     parsedContent = parsedContent.replace("[s]", "<del>").replace("[/s]", "</del>");
-
     System.out.println("Parse Text for StrikeThrough: " + parsedContent );
-
     //make sure generated HTML is valid and all tags are closed
     String cleanedContent = Jsoup.clean(parsedContent, Whitelist.none().addTags("strong", "i", "ins", "del"));
 
@@ -150,18 +158,18 @@ public class MessageServlet extends HttpServlet {
       ServingUrlOptions options = ServingUrlOptions.Builder.withBlobKey(blobKey);
       String imageUrl = imagesService.getServingUrl(options);
       message.setImageUrl(imageUrl);
+
+      //next three lines added by Nicole Barra for ML image analysis
+      byte[] blobBytes = getBlobBytes(blobstoreService, blobKey);
+      String imageLabels = getImageLabels(blobBytes);
+      message.setImageLabels(imageLabels);
     }
 
 
     datastore.storeMessage(message);
 
 
-    /*Just checking if the recipient is being received
 
-    if(recipient!= ""){
-      System.out.println("Recipient has been received");
-    }
-    */
 
 
     response.sendRedirect("/user-page.html?user=" + recipient);
@@ -169,22 +177,81 @@ public class MessageServlet extends HttpServlet {
 
   // New function by Nicole Barra for SEntiment Analysis
 
-  private float getSentimentScore(String text) throws IOException {
+      private float getSentimentScore(String text) throws IOException {
 
-  Document doc = Document.newBuilder()
+      Document doc = Document.newBuilder()
 
-      .setContent(text).setType(Type.PLAIN_TEXT).build();
-
-
-  LanguageServiceClient languageService = LanguageServiceClient.create();
-
-  Sentiment sentiment = languageService.analyzeSentiment(doc).getDocumentSentiment();
-
-  languageService.close();
+          .setContent(text).setType(Type.PLAIN_TEXT).build();
 
 
-  return sentiment.getScore();
+      LanguageServiceClient languageService = LanguageServiceClient.create();
 
+      Sentiment sentiment = languageService.analyzeSentiment(doc).getDocumentSentiment();
+
+      languageService.close();
+
+
+      return sentiment.getScore();
+
+      }
+
+      //function for the ML image analysis by Nicole Barra
+
+      private byte[] getBlobBytes(BlobstoreService blobstoreService, BlobKey blobKey)
+        
+        throws IOException {
+
+      ByteArrayOutputStream outputBytes = new ByteArrayOutputStream();
+      int fetchSize = BlobstoreService.MAX_BLOB_FETCH_SIZE;
+
+      long currentByteIndex = 0;
+      boolean continueReading = true;
+      while (continueReading) {
+
+        // end index is inclusive, so we have to subtract 1 to get fetchSize bytes
+
+        byte[] b =
+            blobstoreService.fetchData(blobKey, currentByteIndex, currentByteIndex + fetchSize - 1);
+          outputBytes.write(b);
+
+        // if we read fewer bytes than we requested, then we reached the end
+
+        if (b.length < fetchSize) {
+          continueReading = false;
+        }
+        currentByteIndex += fetchSize;
+      }
+      return outputBytes.toByteArray();
+
+    }
+
+    private String getImageLabels(byte[] imgBytes) throws IOException {
+  ByteString byteString = ByteString.copyFrom(imgBytes);
+  Image image = Image.newBuilder().setContent(byteString).build();
+
+  Feature feature = Feature.newBuilder().setType(Feature.Type.LABEL_DETECTION).build();
+  AnnotateImageRequest request =
+      AnnotateImageRequest.newBuilder().addFeatures(feature).setImage(image).build();
+  List<AnnotateImageRequest> requests = new ArrayList<>();
+  requests.add(request);
+
+  ImageAnnotatorClient client = ImageAnnotatorClient.create();
+  BatchAnnotateImagesResponse batchResponse = client.batchAnnotateImages(requests);
+  client.close();
+  List<AnnotateImageResponse> imageResponses = batchResponse.getResponsesList();
+  AnnotateImageResponse imageResponse = imageResponses.get(0);
+
+  if (imageResponse.hasError()) {
+    System.err.println("Error getting image labels: " + imageResponse.getError().getMessage());
+    return null;
   }
+
+  String labelsString = imageResponse.getLabelAnnotationsList().stream()
+      .map(EntityAnnotation::getDescription)
+      .collect(Collectors.joining(", "));
+
+  return labelsString;
+
+}
 }
 

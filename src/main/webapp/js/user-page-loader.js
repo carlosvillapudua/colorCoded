@@ -55,13 +55,7 @@ function fetchImageUploadUrlAndShowForm() {
         return response.text();
       })
 
-      .then((loginStatus) => {
-        if (loginStatus.isLoggedIn) {
-          const messageForm = document.getElementById('message-form');
-          messageForm.action = '/messages?recipient='  + parameterUsername;
-          messageForm.classList.remove('hidden');
-        }
-        document.getElementById('about-me-form').classList.remove('hidden');
+      
 
       .then((imageUploadUrl) => {
         const messageForm = document.getElementById('message-form');
@@ -120,6 +114,13 @@ function buildMessageDiv(message) {
     bodyDiv.innerHTML += '<br/>';
     bodyDiv.innerHTML += '<img src="' + message.imageUrl + '" />';
   }
+
+  //for image analysis Nicole Barra
+  if(message.imageLabels){
+  bodyDiv.innerHTML += '<br/>';
+  bodyDiv.innerHTML += message.imageLabels;
+
+}
 
   return messageDiv;
 }
