@@ -18,7 +18,7 @@
       if (isUserLoggedIn) {
         String username = (String) request.getAttribute("username");
     %>
-        <a href="/users/=<%=username%>">Your Page</a>
+        <a href="/users/<%=username%>">Your Page</a>
         <a href="/logout">Logout</a>
     <% } else {   %>
        <a href="/login">Login</a>
