@@ -16,6 +16,12 @@
 
 package com.google.codeu.servlets;
 
+import com.google.appengine.api.blobstore.BlobKey;
+import com.google.appengine.api.blobstore.BlobstoreService;
+import com.google.appengine.api.blobstore.BlobstoreServiceFactory;
+import com.google.appengine.api.images.ImagesService;
+import com.google.appengine.api.images.ImagesServiceFactory;
+import com.google.appengine.api.images.ServingUrlOptions;
 import com.google.appengine.api.users.UserService;
 import com.google.appengine.api.users.UserServiceFactory;
 import com.google.codeu.data.Datastore;
@@ -28,8 +34,21 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+
+import org.jsoup.Jsoup;
+import org.jsoup.safety.Whitelist;
+import com.google.cloud.language.v1.Document;
+
+import com.google.cloud.language.v1.Document.Type;
+
+import com.google.cloud.language.v1.LanguageServiceClient;
+
+import com.google.cloud.language.v1.Sentiment;
+
+
 import java.io.IOException;
 import java.util.List;
+import java.util.Map;
 
 /** Handles fetching and saving {@link Message} instances. */
 @WebServlet("/messages")
@@ -85,7 +104,13 @@ public class MessageServlet extends HttpServlet {
     String user = userService.getCurrentUser().getEmail();
     String text = Jsoup.clean(request.getParameter("text"), Whitelist.none());
 
+    BlobstoreService blobstoreService = BlobstoreServiceFactory.getBlobstoreService();
+    Map<String, List<BlobKey>> blobs = blobstoreService.getUploads(request);
+    List<BlobKey> blobKeys = blobs.get("image");
+
     String recipient = request.getParameter("recipient");
+    float sentimentScore = getSentimentScore(text);
+
 
     String regex = "(https?://\\S+\\.(png|jpg))";
     String replacement = "<img src=\"$1\" />";
@@ -115,10 +140,23 @@ public class MessageServlet extends HttpServlet {
     String cleanedContent = Jsoup.clean(parsedContent, Whitelist.none().addTags("strong", "i", "ins", "del"));
 
 
-    Message message = new Message(user, cleanedContent, recipient);
+
+    Message message = new Message(user, cleanedContent, recipient, sentimentScore);
+
+  
+
+    if(blobKeys != null && !blobKeys.isEmpty()) {
+      BlobKey blobKey = blobKeys.get(0);
+      ImagesService imagesService = ImagesServiceFactory.getImagesService();
+      ServingUrlOptions options = ServingUrlOptions.Builder.withBlobKey(blobKey);
+      String imageUrl = imagesService.getServingUrl(options);
+      message.setImageUrl(imageUrl);
+    }
+
+
     datastore.storeMessage(message);
 
-    
+
     /*Just checking if the recipient is being received
 
     if(recipient!= ""){
@@ -128,6 +166,26 @@ public class MessageServlet extends HttpServlet {
 
 
     response.sendRedirect("/users/" + recipient);
+  }
+
+  // New function by Nicole Barra for SEntiment Analysis
+
+  private float getSentimentScore(String text) throws IOException {
+
+  Document doc = Document.newBuilder()
+
+      .setContent(text).setType(Type.PLAIN_TEXT).build();
+
+
+  LanguageServiceClient languageService = LanguageServiceClient.create();
+
+  Sentiment sentiment = languageService.analyzeSentiment(doc).getDocumentSentiment();
+
+  languageService.close();
+
+
+  return sentiment.getScore();
+
   }
 }
 

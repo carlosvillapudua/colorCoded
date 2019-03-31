@@ -38,21 +38,40 @@ function setPageTitle() {
 
 function showMessageFormIfLoggedIn() {
   fetch('/login-status')
+        .then((response) => {
+          return response.json();
+        })
+        .then((loginStatus) => {
+          if (loginStatus.isLoggedIn &&
+                loginStatus.username == parameterUsername) {
+            fetchImageUploadUrlAndShowForm();
+          }
+        });
+}
+
+function fetchImageUploadUrlAndShowForm() {
+  fetch('/image-upload-url')
       .then((response) => {
-        return response.json();
+        return response.text();
       })
-      .then((loginStatus) => {
-        if (loginStatus.isLoggedIn) {
-          const messageForm = document.getElementById('message-form');
-          messageForm.action = '/messages?recipient=' + parameterUsername;
-          messageForm.classList.remove('hidden');
-        }
-        document.getElementById('about-me-form').classList.remove('hidden');
+
+      
+
+      .then((imageUploadUrl) => {
+        const messageForm = document.getElementById('message-form');
+        messageForm.action = imageUploadUrl;
+        messageForm.classList.remove('hidden');
+        document.getElementById('recipientInput').value = parameterUsername;
+
+
+
       });
 }
 
+
 /** Fetches messages and add them to the page. */
 function fetchMessages() {
+  console.log('checking');
   const url = '/messages?user=' + parameterUsername;
   fetch(url)
       .then((response) => {
@@ -81,7 +100,9 @@ function buildMessageDiv(message) {
   const headerDiv = document.createElement('div');
   headerDiv.classList.add('message-header');
   headerDiv.appendChild(document.createTextNode(
-      message.user + ' - ' + new Date(message.timestamp)));
+      message.user + ' - ' + new Date(message.timestamp)+ 
+
+    ' [' + message.sentimentScore + ']'));
 
   const bodyDiv = document.createElement('div');
   bodyDiv.classList.add('message-body');
@@ -91,6 +112,10 @@ function buildMessageDiv(message) {
   messageDiv.classList.add('message-div');
   messageDiv.appendChild(headerDiv);
   messageDiv.appendChild(bodyDiv);
+  if(message.imageUrl){
+    bodyDiv.innerHTML += '<br/>';
+    bodyDiv.innerHTML += '<img src="' + message.imageUrl + '" />';
+  }
 
   return messageDiv;
 }
