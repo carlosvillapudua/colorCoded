@@ -27,7 +27,6 @@ public class HomeServlet extends HttpServlet {
             request.setAttribute("username", username);
         }
 
-        //send to error page if page doesn't exist
 
         request.getRequestDispatcher("/index.jsp").forward(request,response);
     }

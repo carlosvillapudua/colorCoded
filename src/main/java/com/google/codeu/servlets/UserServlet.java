@@ -14,6 +14,7 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.util.List;
 
+
 @WebServlet("/users/*")
 public class UserServlet extends HttpServlet {
 
@@ -50,9 +51,7 @@ public class UserServlet extends HttpServlet {
 
         List<Message> messages = datastore.getMessages(user);
         String aboutMe = userData.getAboutMe();
-        boolean isViewingSelf =
-                userService.isUserLoggedIn()
-                        && userData.getEmail().equals(userService.getCurrentUser().getEmail());
+        boolean isViewingSelf = userService.isUserLoggedIn() && userData.getEmail().equals(userService.getCurrentUser().getEmail());
         System.out.println("fetching user messages" + messages);
 
          //Add them to the request
