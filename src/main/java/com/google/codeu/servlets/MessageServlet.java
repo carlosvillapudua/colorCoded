@@ -109,7 +109,7 @@ public class MessageServlet extends HttpServlet {
 
     UserService userService = UserServiceFactory.getUserService();
     if (!userService.isUserLoggedIn()) {
-      response.sendRedirect("/index.html");
+      response.sendRedirect("/");
       return;
     }
 
@@ -152,6 +152,7 @@ public class MessageServlet extends HttpServlet {
     Message message = new Message(user, cleanedContent, recipient, sentimentScore);
 
 
+
     if(blobKeys != null && !blobKeys.isEmpty()) {
       BlobKey blobKey = blobKeys.get(0);
       ImagesService imagesService = ImagesServiceFactory.getImagesService();
@@ -172,7 +173,7 @@ public class MessageServlet extends HttpServlet {
 
 
 
-    response.sendRedirect("/user-page.html?user=" + recipient);
+    response.sendRedirect("/users/" + recipient);
   }
 
   // New function by Nicole Barra for SEntiment Analysis

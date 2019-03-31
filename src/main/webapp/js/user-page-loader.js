@@ -63,6 +63,7 @@ function fetchImageUploadUrlAndShowForm() {
         messageForm.classList.remove('hidden');
         document.getElementById('recipientInput').value = parameterUsername;
 
+
       });
 }
 

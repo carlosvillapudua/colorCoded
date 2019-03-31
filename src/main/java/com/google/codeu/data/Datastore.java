@@ -54,9 +54,11 @@ public class Datastore {
         messageEntity.setProperty("imageUrl", message.getImageUrl());
     }
 
+
     if(message.getImageLabels()!= null) {
         messageEntity.setProperty("imageLabels", message.getImageLabels());
     } 
+
 
     datastore.put(messageEntity);
   }
@@ -94,6 +96,12 @@ public class Datastore {
         //Added by Nicole Barra for Direct Message step 4
         Message message = new Message(id, user, text, timestamp, recipient, sentimentScore);
 
+        String imageUrl = (String) entity.getProperty("imageUrl");
+
+
+
+        message.setImageUrl(imageUrl);
+
 
         String imageUrl = (String) entity.getProperty("imageUrl");
         String imageLabels = (String) entity.getProperty("imageLabels");
@@ -102,6 +110,7 @@ public class Datastore {
 
         message.setImageUrl(imageUrl);
         message.setImageLabels(imageLabels);
+
 
         messages.add(message);
       } catch (Exception e) {
@@ -146,11 +155,13 @@ public class Datastore {
 
                 Message message = new Message(id, user, text, timestamp,recipient,sentimentScore);
 
+
                 String imageUrl = (String) entity.getProperty("imageUrl");
                 message.setImageUrl(imageUrl);
 
                 String imageLabels = (String) entity.getProperty("imageLabels");
                 message.setImageLabels(imageLabels);
+
 
                 messages.add(message);
             } catch (Exception e) {
@@ -200,7 +211,7 @@ public class Datastore {
 
 	public List<UserMarker> getMarkers() {
 
-  
+
 		List<UserMarker> markers = new ArrayList<>();
 
 		Query query = new Query("UserMarker");
@@ -232,5 +243,7 @@ public class Datastore {
 	}
 
 
+
 }
+
 
