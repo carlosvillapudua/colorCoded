@@ -1,6 +1,7 @@
 package com.google.codeu.servlets;
 
 import java.io.IOException;
+import java.util.*;
 
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -37,5 +38,23 @@ public class StatsPageServlet extends HttpServlet{
         JsonObject jsonObject = new JsonObject();
         jsonObject.addProperty("messageCount", messageCount);
         response.getOutputStream().println(jsonObject.toString());
+    }
+    
+    public void main() {
+    	Scanner scanner = new Scanner(getServletContext().getResourceAsStream("/WEB-INF/UFO_coord.csv"));
+    	while(scanner.hasNextLine()) {
+    		String line = scanner.nextLine();
+    		String[] cells = line.split(",");
+    		
+    		String state = cells[0];
+    		double lat = Double.parseDouble(cells[1]);
+    		double lng = Double.parseDouble(cells[2]);
+    		
+    		System.out.println("state: " + state);
+    		System.out.println("lat: " + lat);
+    		System.out.println("lng: " + lng);
+    		System.out.println();
+    	}
+    	scanner.close();
     }
 }

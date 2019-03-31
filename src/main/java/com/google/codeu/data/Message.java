@@ -17,7 +17,6 @@
 package com.google.codeu.data;
 
 import java.util.UUID;
-
 /** A single message posted by a user. */
 public class Message {
 
@@ -26,19 +25,26 @@ public class Message {
   private String text;
   private long timestamp;
 
+  //Added by Nicole (Step 2 Direct Message)
+
+  private String recipient;
+
   /**
    * Constructs a new {@link Message} posted by {@code user} with {@code text} content. Generates a
    * random ID and uses the current system time for the creation time.
    */
-  public Message(String user, String text) {
-    this(UUID.randomUUID(), user, text, System.currentTimeMillis());
+
+  //Edited constructors by Nicole (Step 2 Direct Messages)
+  public Message(String user, String text, String recipient) {
+  this(UUID.randomUUID(), user, text, System.currentTimeMillis(), recipient);
   }
 
-  public Message(UUID id, String user, String text, long timestamp) {
-    this.id = id;
-    this.user = user;
-    this.text = text;
-    this.timestamp = timestamp;
+public Message(UUID id, String user, String text, long timestamp, String recipient) {
+  this.id = id;
+  this.user = user;
+  this.text = text;
+  this.timestamp = timestamp;
+  this.recipient = recipient;
   }
 
   public UUID getId() {
@@ -56,4 +62,9 @@ public class Message {
   public long getTimestamp() {
     return timestamp;
   }
+
+  //Added by Nicole (Step 2 Message direct)
+  public String getRecipient(){
+  return recipient;
+}
 }

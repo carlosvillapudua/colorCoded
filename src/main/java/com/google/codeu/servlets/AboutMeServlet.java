@@ -11,14 +11,6 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
-<<<<<<< HEAD
-=======
-import com.google.appengine.api.users.UserService;
-import com.google.appengine.api.users.UserServiceFactory;
-import com.google.codeu.data.Datastore;
-import com.google.codeu.data.User;
->>>>>>> created Java class 'user' that stores and retrieves data from the datastore java class
-
 /**
  * Handles fetching and saving user data.
  */
@@ -45,23 +37,17 @@ public class AboutMeServlet extends HttpServlet {
 
         if(user == null || user.equals("")) {
             // Request is invalid, return empty response
+            response.sendRedirect("/");
             return;
         }
 
         User userData = datastore.getUser(user);
-<<<<<<< HEAD
 
         if(userData == null || userData.getAboutMe() == null) {
+            response.getOutputStream().println("This page is empty :(");
             return;
         }
 
-=======
-
-        if(userData == null || userData.getAboutMe() == null) {
-            return;
-        }
-
->>>>>>> created Java class 'user' that stores and retrieves data from the datastore java class
         response.getOutputStream().println(userData.getAboutMe());
     }
 
@@ -71,7 +57,7 @@ public class AboutMeServlet extends HttpServlet {
 
         UserService userService = UserServiceFactory.getUserService();
         if (!userService.isUserLoggedIn()) {
-            response.sendRedirect("/index.html");
+            response.sendRedirect("/");
             return;
         }
 
@@ -81,6 +67,6 @@ public class AboutMeServlet extends HttpServlet {
         User user = new User(userEmail, aboutMe);
         datastore.storeUser(user);
 
-        response.sendRedirect("/user-page.html?user=" + userEmail);
+        response.sendRedirect("/users/" + userEmail);
     }
 }
