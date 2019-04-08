@@ -96,11 +96,7 @@ public class Datastore {
         //Added by Nicole Barra for Direct Message step 4
         Message message = new Message(id, user, text, timestamp, recipient, sentimentScore);
 
-        String imageUrl = (String) entity.getProperty("imageUrl");
 
-
-
-        message.setImageUrl(imageUrl);
 
 
         String imageUrl = (String) entity.getProperty("imageUrl");

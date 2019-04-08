@@ -71,7 +71,11 @@ function fetchImageUploadUrlAndShowForm() {
 /** Fetches messages and add them to the page. */
 function fetchMessages() {
   console.log('checking');
-  const url = '/messages?user=' + parameterUsername;
+  const parameterLanguage = urlParams.get('language');
+let url = '/messages?user=' + parameterUsername;
+if(parameterLanguage) {
+  url += '&language=' + parameterLanguage;
+}
   fetch(url)
       .then((response) => {
         return response.json();

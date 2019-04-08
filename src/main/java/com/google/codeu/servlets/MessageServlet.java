@@ -58,6 +58,11 @@ import java.util.ArrayList;
 import java.io.ByteArrayOutputStream;
 import java.util.stream.Collectors; 
 
+import com.google.cloud.translate.Translate;
+import com.google.cloud.translate.Translate.TranslateOption;
+import com.google.cloud.translate.TranslateOptions;
+import com.google.cloud.translate.Translation;
+
 
 
 import java.io.IOException;
@@ -86,13 +91,23 @@ public class MessageServlet extends HttpServlet {
 
     String user = request.getParameter("user");
 
+    String targetLanguageCode = request.getParameter("language");
+
+    List<Message> messages = datastore.getMessages(user);
+    
+    if(targetLanguageCode != null) {
+
+      translateMessages(messages, targetLanguageCode);
+
+    }
+
     if (user == null || user.equals("")) {
       // Request is invalid, return empty array
       response.getWriter().println("[]");
       return;
     }
 
-    List<Message> messages = datastore.getMessages(user);
+    
     Gson gson = new Gson();
     String json = gson.toJson(messages);
     //Line 65 causes some error, commented by Nicole Barra
@@ -252,6 +267,24 @@ public class MessageServlet extends HttpServlet {
       .collect(Collectors.joining(", "));
 
   return labelsString;
+
+}
+
+  //Added for GP ML Translation Nicole Barra
+  private void translateMessages(List<Message> messages, String targetLanguageCode) {
+  Translate translate = TranslateOptions.getDefaultInstance().getService();
+
+  for(Message message : messages) {
+    String originalText = message.getText();
+
+    Translation translation =
+        translate.translate(originalText, TranslateOption.targetLanguage(targetLanguageCode));
+    String translatedText = translation.getTranslatedText();
+
+      
+    message.setText(translatedText);
+
+  }    
 
 }
 }

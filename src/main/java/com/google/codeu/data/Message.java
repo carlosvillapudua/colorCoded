@@ -72,6 +72,10 @@ public Message(UUID id, String user, String text, long timestamp, String recipie
     return text;
   }
 
+  public void setText(String setText){
+    text = setText;
+  }
+
   public long getTimestamp() {
     return timestamp;
   }
