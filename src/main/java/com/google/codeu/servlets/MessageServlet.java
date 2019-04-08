@@ -95,6 +95,7 @@ public class MessageServlet extends HttpServlet {
 
     UserService userService = UserServiceFactory.getUserService();
     if (!userService.isUserLoggedIn()) {
+      System.out.println( "MessageServlet::doPost() - User is not logged in..." );
       response.sendRedirect("/");
       return;
     }
@@ -106,10 +107,14 @@ public class MessageServlet extends HttpServlet {
 
     BlobstoreService blobstoreService = BlobstoreServiceFactory.getBlobstoreService();
     Map<String, List<BlobKey>> blobs = blobstoreService.getUploads(request);
-    List<BlobKey> blobKeys = blobs.get("image");
+    List<BlobKey> blobKeys = null;
+
+    if ( !blobs.isEmpty() )
+      blobKeys = blobs.get("image");
 
     String recipient = request.getParameter("recipient");
-    float sentimentScore = getSentimentScore(text);
+//    float sentimentScore = getSentimentScore(text);
+    float sentimentScore = 0;
 
 
     String regex = "(https?://\\S+\\.(png|jpg))";
@@ -147,6 +152,9 @@ public class MessageServlet extends HttpServlet {
 
     if(blobKeys != null && !blobKeys.isEmpty()) {
       BlobKey blobKey = blobKeys.get(0);
+      System.out.println( "Blob Key: " + blobKey.getKeyString() );
+      System.out.println( "Blob Key as string: " + blobKey.toString() );
+
       ImagesService imagesService = ImagesServiceFactory.getImagesService();
       ServingUrlOptions options = ServingUrlOptions.Builder.withBlobKey(blobKey);
       String imageUrl = imagesService.getServingUrl(options);

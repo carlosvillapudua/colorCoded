@@ -16,10 +16,10 @@
     <meta charset="UTF-8">
     <link rel="stylesheet" href="/css/main.css">
     <link rel="stylesheet" href="/css/user-page.css">
-    <script src="/js/message-loader.js"></script>
+    <script src="/js/user-page-loader.js"></script>
     <script src="https://cdn.ckeditor.com/ckeditor5/11.2.0/classic/ckeditor.js"></script>
   </head>
-  <body onload="buildUI();">
+  <body data-isUserLoggedIn="${isUserLoggedIn}" data-user="${user}" data-messages="${messages}" onload="buildUI();">
     <nav>
       <ul id="navigation">
         <li><a href="/">Home</a></li>
@@ -27,50 +27,32 @@
         <li><a href="/feed.html">Public Feed</a></li>
       </ul>
     </nav>
-    <h1 id="page-title"><%= user %></h1>
-    <b>About Me: </b>
-    <div id="about-me-container"><%= (String) request.getAttribute("aboutMe") %></div>
-    <br/>
+    <h1 id="page-title"></h1>
 
-    <% if(isUserLoggedIn && isViewingSelf){ %>
-    <form id="about-me-form" action="/about" method="POST" class>
+    <form id="message-form" method="POST" class="hidden" enctype="multipart/form-data">
+      Enter a new message:
       <br/>
-      <textarea name="about-me" placeholder="Share Something!" id="about-me-input"rows=4 required></textarea>
+      <textarea name="text" id="message-input"></textarea>
       <br/>
+      Add an image to your message:
+      <input type="file" name="image">
+      <br/>
+      <input type="hidden" value="" name="recipient" id="recipientInput">
       <input type="submit" value="Submit">
     </form>
+
     <hr/>
-    <% }  %>
 
-    <% if(isUserLoggedIn){ %>
-    <form id="message-form" action="/messages?recipient=<%= user %>" method="POST" class>
-    Enter a new message:
-    <br/>
-    <textarea name="text" placeholder="Enter a message" id="message-input"></textarea>
-    <br/>
-    <input type="submit" value="Submit">
-    </form>
-    <% }  %>
+    <div id="message-container">Loading...</div>
+    <div id="about-me-container">Loading...</div>
+    <div id="about-me-form">
+      <form action="/about" method="POST">
+        <textarea name="about-me" placeholder="Share something!" rows=4 required></textarea>
+        <br/>
+        <input type="submit" value="Submit">
+      </form>
+    </div>
 
-    <div id="message-container">
-        <%  if (messages.isEmpty()) { %>
-              <p>This user has no posts yet.</p>
-        <%  } else { %>
-              <p>User has messages:</p>
-        <%  }
-            for(int i = 0; i < messages.size(); i++) {
-        %>
-              <div class="message-div">
-                <div class="message-header">
-                  User: <%= messages.get(i).getUser() %> -
-                  Time: <%= new Date(messages.get(i).getTimestamp()) %> -
-                </div>
-                <div class="message-body">
-                  <%= messages.get(i).getText() %>
-                </div>
-              </div>
-        <% }  %>
-        </div>
 
   </body>
 </html>

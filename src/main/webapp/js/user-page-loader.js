@@ -16,15 +16,16 @@
 
 // Get ?user=XYZ parameter value
 const urlParams = new URLSearchParams(window.location.search);
-const parameterUsername = urlParams.get('user');
+//const parameterUsername = urlParams.get('user');
+
 
 // URL must include ?user=XYZ parameter. If not, redirect to homepage.
-if (!parameterUsername) {
-  window.location.replace('/');
-}
+//if (!parameterUsername) {
+//  window.location.replace('/');
+//}
 
 /** Sets the page title based on the URL parameter username. */
-function setPageTitle() {
+function setPageTitle( parameterUsername ) {
   document.getElementById('page-title').innerText = parameterUsername;
   document.title = parameterUsername + ' - User Page';
 }
@@ -36,7 +37,7 @@ function setPageTitle() {
  */
 
 
-function showMessageFormIfLoggedIn() {
+function showMessageFormIfLoggedIn( parameterUsername ) {
   fetch('/login-status')
         .then((response) => {
           return response.json();
@@ -44,12 +45,12 @@ function showMessageFormIfLoggedIn() {
         .then((loginStatus) => {
           if (loginStatus.isLoggedIn &&
                 loginStatus.username == parameterUsername) {
-            fetchImageUploadUrlAndShowForm();
+            fetchImageUploadUrlAndShowForm( parameterUsername );
           }
         });
 }
 
-function fetchImageUploadUrlAndShowForm() {
+function fetchImageUploadUrlAndShowForm( parameterUsername ) {
   fetch('/image-upload-url')
       .then((response) => {
         return response.text();
@@ -70,7 +71,7 @@ function fetchImageUploadUrlAndShowForm() {
 
 
 /** Fetches messages and add them to the page. */
-function fetchMessages() {
+function fetchMessages( parameterUsername) {
   console.log('checking');
   const url = '/messages?user=' + parameterUsername;
   fetch(url)
@@ -122,13 +123,20 @@ function buildMessageDiv(message) {
 
 /** Fetches data and populates the UI of the page. */
 function buildUI() {
-  setPageTitle();
-  showMessageFormIfLoggedIn();
-  fetchMessages();
-  fetchAboutMe();
+
+  var x = document.getElementsByTagName("body")[0];
+  const parameterUsername = x.getAttribute('data-user');
+  const isUserLoggedIn = x.getAttribute('data-isUserLoggedIn');
+
+
+
+  setPageTitle( parameterUsername );
+  showMessageFormIfLoggedIn( parameterUsername );
+  fetchMessages( parameterUsername );
+  fetchAboutMe( parameterUsername);
   ClassicEditor.create( document.getElementById('message-input') );
 }
-function fetchAboutMe(){
+function fetchAboutMe( parameterUsername){
   const url = '/about?user=' + parameterUsername;
   fetch(url).then((response) => {
     return response.text();
