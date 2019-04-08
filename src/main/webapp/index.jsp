@@ -6,6 +6,8 @@
     <meta charset="UTF-8">
     <title>colorCoded</title>
     <link rel="stylesheet" href="/css/main.css">
+      <script src="/js/user-page-loader.js"></script>
+
   </head>
   <body>
     <nav>
