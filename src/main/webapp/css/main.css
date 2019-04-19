@@ -1,6 +1,6 @@
 body {
   margin: 0;
-  background-color: yellow;
+  background-image: url("https://images.wallpaperscraft.com/image/dog_booth_art_minimalism_93338_1920x1080.jpg");
   font-family: sans-serif;
   color: black;
   padding-left: 20px;
@@ -14,7 +14,7 @@ p{
 }
 
 nav {
-  background-color: yellow;
+  background-color: rgb(100, 149, 237);
   font-size: 18pt;
   padding: 10px;
   color: black;

@@ -56,6 +56,11 @@
    messageDiv.appendChild(headerDiv);
    messageDiv.appendChild(bodyDiv);
 
+   if(message.imageUrl){
+    bodyDiv.innerHTML += '<br/>';
+    bodyDiv.innerHTML += '<img src="' + message.imageUrl + '" />';
+  }
+
    return messageDiv;
   }
   
@@ -72,7 +77,6 @@
   <li><a href="/map.html">Map</a></li>
  </ul>
 </nav>
-
  <div id="content">
   <h1>Message Feed</h1>
   <hr/>
