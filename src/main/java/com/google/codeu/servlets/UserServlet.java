@@ -55,6 +55,7 @@ public class UserServlet extends HttpServlet {
         System.out.println("fetching user messages" + messages);
 
          //Add them to the request
+        request.getSession().setAttribute( "sessionUser", user);
         request.setAttribute("user", user);
         request.setAttribute("messages", messages);
         request.setAttribute("aboutMe", aboutMe);

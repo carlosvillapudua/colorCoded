@@ -72,7 +72,6 @@ function fetchImageUploadUrlAndShowForm( parameterUsername ) {
 
 /** Fetches messages and add them to the page. */
 function fetchMessages( parameterUsername) {
-  console.log('checking');
   const url = '/messages?user=' + parameterUsername;
   fetch(url)
       .then((response) => {
