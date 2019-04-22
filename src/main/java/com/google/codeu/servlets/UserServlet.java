@@ -58,9 +58,8 @@ public class UserServlet extends HttpServlet {
         request.getSession().setAttribute( "sessionUser", user);
         request.setAttribute("user", user);
         request.setAttribute("messages", messages);
-        request.setAttribute("aboutMe", aboutMe);
         request.setAttribute("isUserLoggedIn", userService.isUserLoggedIn());
         request.setAttribute("isViewingSelf", isViewingSelf);
-        request.getRequestDispatcher("/WEB-INF/user.jsp").forward(request,response);
+
     }
 }

@@ -12,7 +12,7 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <title>User Page</title>
+    <title>Chat</title>
     <meta charset="UTF-8">
     <link rel="stylesheet" href="/css/main.css">
     <link rel="stylesheet" href="/css/user-page.css">
@@ -40,19 +40,6 @@
       <input type="hidden" value="" name="recipient" id="recipientInput">
       <input type="submit" value="Submit">
     </form>
-
-    <hr/>
-
-    <div id="message-container">Loading...</div>
-    <div id="about-me-container">Loading...</div>
-    <div id="about-me-form">
-      <form action="/about" method="POST">
-        <textarea name="about-me" placeholder="Share something!" rows=4 required></textarea>
-        <br/>
-        <input type="submit" value="Submit">
-      </form>
-    </div>
-
 
   </body>
 </html>

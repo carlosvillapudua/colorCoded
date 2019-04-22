@@ -49,8 +49,14 @@ public class LoginServlet extends HttpServlet {
     // If the user is already logged in, redirect to their page
     if (userService.isUserLoggedIn()) {
       String user = userService.getCurrentUser().getEmail();
-      createNewUser(user);
-      response.sendRedirect("/users/" + user);
+      User userprofile = datastore.getUser(user);
+
+      if(userprofile == null) {
+        response.sendRedirect("/username.html");
+      } else {
+        response.sendRedirect("/users/" + user);
+      }
+
       return;
     }
 
@@ -61,10 +67,5 @@ public class LoginServlet extends HttpServlet {
 
   }
 
-  private void createNewUser(String userEmail) {
-    if (datastore.getUser(userEmail) == null) {
-      User user = new User(userEmail, "This page is empty :(");
-      datastore.storeUser(user);
-    }
-  }
 }
+

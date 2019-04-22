@@ -38,6 +38,8 @@ public class Datastore {
     datastore = DatastoreServiceFactory.getDatastoreService();
   }
 
+
+
   /** Stores the Message in Datastore. */
   public void storeMessage(Message message) {
     Entity messageEntity = new Entity("Message", message.getId().toString());
@@ -56,6 +58,8 @@ public class Datastore {
 
     datastore.put(messageEntity);
   }
+
+
 
   /**
    * Gets messages posted by a specific user.
@@ -158,6 +162,13 @@ public class Datastore {
             Entity userEntity = new Entity("User", user.getEmail());
             userEntity.setProperty("email", user.getEmail());
             userEntity.setProperty("aboutMe", user.getAboutMe());
+            //userEntity.setProperty("userName", user.getUserName());
+            userEntity.setProperty("numOfDogs", user.getNumOfDogs());
+            userEntity.setProperty("dogName", user.getDogName());
+            userEntity.setProperty("breed", user.getBreed());
+            userEntity.setProperty("gender", user.getGender());
+            userEntity.setProperty("description", user.getDescription());
+
             datastore.put(userEntity);
         }
 
@@ -174,20 +185,24 @@ public class Datastore {
             if (userEntity == null) {
                 return null;
             }
-
+            email = (String) userEntity.getProperty("email");
             String aboutMe = (String) userEntity.getProperty("aboutMe");
-            User user = new User(email, aboutMe);
+            String username = (String) userEntity.getProperty("username");
+            String numOfDogs = (String) userEntity.getProperty("numOfDogs");
+            String dogName = (String) userEntity.getProperty("dogName");
+            String breed;
+            breed = (String) userEntity.getProperty("breed");
+            String gender;
+            gender = (String) userEntity.getProperty("gender");
+            String description;
+            description = (String) userEntity.getProperty("description");
+            User user = new User(email, aboutMe, username, numOfDogs, dogName, breed, gender, description);
 
             return user;
-
         }
 
 
-    
 
-
-
-	
 
 	public List<UserMarker> getMarkers() {
 
@@ -222,7 +237,7 @@ public class Datastore {
 	}
 
 
-    }
+}
 
 
 
