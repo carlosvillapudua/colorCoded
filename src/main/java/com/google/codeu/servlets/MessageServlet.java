@@ -173,7 +173,7 @@ public class MessageServlet extends HttpServlet {
     */
 
 
-    response.sendRedirect("/users/" + recipient);
+    response.sendRedirect("/feed.jsp" );
   }
 
   // New function by Nicole Barra for SEntiment Analysis

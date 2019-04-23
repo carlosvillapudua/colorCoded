@@ -4,7 +4,6 @@
 <%@ page import="com.google.codeu.data.Message" %>
 
 <% String user = (String) request.getSession().getAttribute("sessionUser"); %>
-<% System.out.println("user : " + user); %>
 <% List<Message> messages = (List<Message>) request.getAttribute("messages"); %>
 
 
@@ -109,7 +108,6 @@
 
    var x = document.getElementsByTagName("body")[0];
    const parameterUsername = x.getAttribute('data-user');
-   alert('parameterUsername' + parameterUsername);
    showMessageFormIfLoggedIn( parameterUsername );
    fetchMessages();
    ClassicEditor.create( document.getElementById('message-input') );
@@ -117,7 +115,7 @@
   }
 </script>
 </head>
-<body data-user="${user}" onload="buildUI();">
+<body data-user=<%=user%> onload="buildUI();">
 <nav>
  <ul id="navigation">
   <li><a href="/">Home</a></li>
