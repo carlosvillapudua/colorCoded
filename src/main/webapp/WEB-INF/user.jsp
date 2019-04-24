@@ -24,7 +24,21 @@
       <ul id="navigation">
         <li><a href="/">Home</a></li>
         <li><a href="/map.html">Map</a></li>
-        <li><a href="/feed.jsp">Public Feed</a></li>
+        <%
+          if (isUserLoggedIn) {
+            String username = (String) request.getSession().getAttribute("user");
+        %>
+        <li><a href="/profile.jsp">Your Profile</a></li>
+        <li><a href="/logout">Logout</a></li>
+        <%
+        }
+        else {
+        %>
+        <li><a href="/login">Login</a></li>
+        <%
+          }
+        %>
+      </ul>
       </ul>
     </nav>
     <h1 id="page-title"></h1>

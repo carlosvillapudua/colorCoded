@@ -4,7 +4,7 @@ function fetchUserProfile() {
        .then((response) => {
        return response.text();
        })
-       .then(profile) => {
+       .then(profile)=> {
        const profileForm = document.getElementById('profile-form');
        profileForm.action = profile;
        if(profileForm == ''){

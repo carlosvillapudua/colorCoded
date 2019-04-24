@@ -49,12 +49,14 @@ public class LoginServlet extends HttpServlet {
     // If the user is already logged in, redirect to their page
     if (userService.isUserLoggedIn()) {
       String user = userService.getCurrentUser().getEmail();
+      request.getSession().setAttribute( "user", user );
+      request.getSession().setAttribute( "isUserLoggedIn", userService.isUserLoggedIn() );
       User userprofile = datastore.getUser(user);
 
       if(userprofile == null) {
-        response.sendRedirect("/username.html");
+        response.sendRedirect("/profile.jsp");
       } else {
-        response.sendRedirect("/users/" + user);
+        response.sendRedirect("/index.jsp");
       }
 
       return;

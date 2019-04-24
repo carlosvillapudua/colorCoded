@@ -44,7 +44,7 @@ public class UserServlet extends HttpServlet {
         User userData = datastore.getUser(user);
 
         //if user does not exist send to error page
-        if (userData == null) {
+        if ( userData == null ) {
             response.sendRedirect("/");
             return;
         }
@@ -55,11 +55,11 @@ public class UserServlet extends HttpServlet {
         System.out.println("fetching user messages" + messages);
 
          //Add them to the request
-        request.getSession().setAttribute( "sessionUser", user);
+        request.getSession().setAttribute( "user", user);
         request.setAttribute("user", user);
         request.setAttribute("messages", messages);
         request.setAttribute("isUserLoggedIn", userService.isUserLoggedIn());
         request.setAttribute("isViewingSelf", isViewingSelf);
-
+        request.getRequestDispatcher("/WEB-INF/user.jsp").forward(request,response);
     }
 }

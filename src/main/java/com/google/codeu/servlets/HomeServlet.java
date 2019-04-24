@@ -25,9 +25,15 @@ public class HomeServlet extends HttpServlet {
         if (userService.isUserLoggedIn()) {
             String username = userService.getCurrentUser().getEmail();
             request.setAttribute("username", username);
+            request.getSession().setAttribute( "user", username );
+            request.getSession().setAttribute( "isUserLoggedIn", isUserLoggedIn );
+            request.getRequestDispatcher("/index.jsp").forward(request,response);
+        }
+        else {
+            request.getRequestDispatcher("/splash.jsp").forward(request,response);
         }
 
 
-        request.getRequestDispatcher("/index.jsp").forward(request,response);
+
     }
 }
