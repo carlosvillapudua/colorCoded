@@ -32,7 +32,6 @@ function setPageTitle( parameterUsername ) {
 
 /**
  * Shows the message form if the user is logged in and in any user page
-
  It used to be the showMessageFormIfViewingSelf() function
  */
 
@@ -56,7 +55,7 @@ function fetchImageUploadUrlAndShowForm( parameterUsername ) {
         return response.text();
       })
 
-      
+
 
       .then((imageUploadUrl) => {
         const messageForm = document.getElementById('message-form');
@@ -72,7 +71,6 @@ function fetchImageUploadUrlAndShowForm( parameterUsername ) {
 
 /** Fetches messages and add them to the page. */
 function fetchMessages( parameterUsername) {
-  console.log('checking');
   const url = '/messages?user=' + parameterUsername;
   fetch(url)
       .then((response) => {
@@ -101,7 +99,7 @@ function buildMessageDiv(message) {
   const headerDiv = document.createElement('div');
   headerDiv.classList.add('message-header');
   headerDiv.appendChild(document.createTextNode(
-      message.user + ' - ' + new Date(message.timestamp)+ 
+      message.user + ' - ' + new Date(message.timestamp)+
 
     ' [' + message.sentimentScore + ']'));
 
@@ -132,11 +130,12 @@ function buildUI() {
 
   setPageTitle( parameterUsername );
   showMessageFormIfLoggedIn( parameterUsername );
-  fetchMessages( parameterUsername );
-  fetchAboutMe( parameterUsername);
+  fetchMessages();
+  //fetchAboutMe( parameterUsername);
   ClassicEditor.create( document.getElementById('message-input') );
 }
-function fetchAboutMe( parameterUsername){
+
+/*function fetchAboutMe( parameterUsername){
   const url = '/about?user=' + parameterUsername;
   fetch(url).then((response) => {
     return response.text();
@@ -149,4 +148,4 @@ function fetchAboutMe( parameterUsername){
     aboutMeContainer.innerHTML = aboutMe;
 
   });
-}
+}*/

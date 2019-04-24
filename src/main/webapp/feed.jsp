@@ -1,3 +1,12 @@
+<%@ page contentType ="text/html" pageEncoding="UTF-8"%>
+<%@ page import="java.util.Date" %>
+<%@ page import="java.util.*" %>
+<%@ page import="com.google.codeu.data.Message" %>
+
+<% String user = (String) request.getSession().getAttribute("sessionUser"); %>
+<% List<Message> messages = (List<Message>) request.getAttribute("messages"); %>
+
+
 <!DOCTYPE html>
 <html>
 <head>
@@ -7,9 +16,39 @@
 <link rel="stylesheet" href="css/user-page.css">
 <!--<link rel="stylesheet" href="css/testStyle.css">-->
     
-
+<script src="https://cdn.ckeditor.com/ckeditor5/11.2.0/classic/ckeditor.js"></script>
 <script>
-    
+  function showMessageFormIfLoggedIn( parameterUsername ) {
+    fetch('/login-status')
+          .then((response) => {
+            return response.json();
+          })
+          .then((loginStatus) => {
+            if (loginStatus.isLoggedIn &&
+                  loginStatus.username == parameterUsername) {
+              fetchImageUploadUrlAndShowForm( parameterUsername );
+            }
+          });
+  }
+
+  function fetchImageUploadUrlAndShowForm( parameterUsername ) {
+    fetch('/image-upload-url')
+        .then((response) => {
+          return response.text();
+        })
+
+
+
+        .then((imageUploadUrl) => {
+          const messageForm = document.getElementById('message-form');
+          messageForm.action = imageUploadUrl;
+          messageForm.classList.remove('hidden');
+          document.getElementById('recipientInput').value = parameterUsername;
+
+
+
+        });
+  }
   // Fetch messages and add them to the page.
   function fetchMessages(){
     const url = '/feed';
@@ -66,11 +105,17 @@
   
   // Fetch data and populate the UI of the page.
   function buildUI(){
+
+   var x = document.getElementsByTagName("body")[0];
+   const parameterUsername = x.getAttribute('data-user');
+   showMessageFormIfLoggedIn( parameterUsername );
    fetchMessages();
+   ClassicEditor.create( document.getElementById('message-input') );
+
   }
 </script>
 </head>
-<body onload="buildUI()">
+<body data-user=<%=user%> onload="buildUI();">
 <nav>
  <ul id="navigation">
   <li><a href="/">Home</a></li>
@@ -79,6 +124,18 @@
 </nav>
  <div id="content">
   <h1>Message Feed</h1>
+  <hr/>
+  <form id="message-form" method="POST" class="hidden" enctype="multipart/form-data">
+   Enter a new message:
+   <br/>
+   <textarea name="text" id="message-input"></textarea>
+   <br/>
+   Add an image to your message:
+   <input type="file" name="image">
+   <br/>
+   <input type="hidden" value="" name="recipient" id="recipientInput">
+   <input type="submit" value="Submit">
+  </form>
   <hr/>
   <div id="message-container">Loading...</div>
  </div>

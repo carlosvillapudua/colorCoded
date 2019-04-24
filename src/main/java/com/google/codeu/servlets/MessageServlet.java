@@ -156,9 +156,20 @@ public class MessageServlet extends HttpServlet {
       System.out.println( "Blob Key as string: " + blobKey.toString() );
 
       ImagesService imagesService = ImagesServiceFactory.getImagesService();
-      ServingUrlOptions options = ServingUrlOptions.Builder.withBlobKey(blobKey);
-      String imageUrl = imagesService.getServingUrl(options);
-      message.setImageUrl(imageUrl);
+      if ( imagesService != null )
+      {
+        ServingUrlOptions options = ServingUrlOptions.Builder.withBlobKey(blobKey);
+        if ( options != null ) {
+          try {
+            String imageUrl = imagesService.getServingUrl(options);
+            message.setImageUrl(imageUrl);
+          }
+          catch ( Exception e ) {
+            System.out.println( "Exception Caught: " + e.getMessage() );
+            e.printStackTrace();
+          }
+        }
+      }
     }
 
 
@@ -173,7 +184,7 @@ public class MessageServlet extends HttpServlet {
     */
 
 
-    response.sendRedirect("/users/" + recipient);
+    response.sendRedirect("/" );
   }
 
   // New function by Nicole Barra for SEntiment Analysis

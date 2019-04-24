@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>User SetUp</title>
+    <link rel="stylesheet" href="css/main.css">
+    <script src="/js/navigation-loader.js"></script>
+    <link rel="stylesheet" href="/css/user-page.css">
+    <script src="/js/user-profile-loader.js"></script>
+    <script src="https://cdn.ckeditor.com/ckeditor5/11.2.0/classic/ckeditor.js"></script>
+  </head>
+  <body onload="buildUI();">
+    <nav>
+      <ul id="navigation">
+        <li><a href="/">Home</a></li>
+        <li><a href="/map.jsp">Map</a></li>
+        <li><a href="/feed.jsp">Public Feed</a></li>
+      </ul>
+    </nav>
+<div>
+  <center><h2>Set up your profile!</h2>
+  </center>
+
+  <form id="profile-form" method="POST"action ="/username" enctype="multipart/form-data">
+    Username:
+    <br/>
+    <textarea name="text" id="user-name" placeholder="username" required></textarea>
+    <br/>
+    <div id="message-container">Share Something!</div>
+    <div id="about-me-form">
+      <textarea name="about-me" id ="message-input" placeholder="About Me" rows=2required></textarea>
+      <br/>
+    </div>
+    <br/>
+    Dogs:
+    <select name="dogs" id="dogs" required>
+      <option value = "1">1</option>
+      <option value = "2">2</option>
+      <option value = "3">3</option>
+      <option value = "4">4</option>
+      <option value = "5">5</option>
+      <option value = "6">6</option>
+      <option value = "7">7</option>
+      <option value = "8">8</option>
+      <option value = "9">9</option>
+      <option value = "10">10</option>
+    </select>
+    <br/>
+    <center>
+      <p>Set up your Doogler profile!</p>
+    </center>
+    Doogler Name:
+    <br/>
+    <textarea name="text" id="name" placeholder="Name" required></textarea>
+    <br/>
+    Doogler Breed:
+    <br/>
+    <textarea name="text" id="breed" placeholder="Breed" required></textarea>
+    <br/>
+    Doogler Gender:
+    <br/>
+    <select name="dogs" id="dog-breed" required>
+      <option value ="nothing">Not Selected</option>
+      <option value ="male">Male</option>
+      <option value ="female">Female</option>
+      <option value ="neutered">Neutered</option>
+    </select>
+    <br/>
+    Personality Description:
+    <br/>
+    <textarea name="text" id="message" placeholder="Playful, Hyper" required></textarea>
+    <br/>
+    <input type="submit" value="Save">
+  </form>
+</div>
+  </body>
+</html>
