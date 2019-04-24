@@ -211,7 +211,7 @@ public class Datastore {
 				double lng = (double) entity.getProperty("lng");
 				String content = (String) entity.getProperty("content");
 
-				UserMarker marker = new UserMarker(lat, lng, content);
+				UserMarker marker = new UserMarker(lat, lng, content, "hello", "hello", "hello1", "hello2");
 				markers.add(marker);
 			} catch (Exception e) {
 				System.err.println("Error reading marker.");
