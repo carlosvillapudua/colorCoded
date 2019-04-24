@@ -1,44 +1,73 @@
-<!DOCTYPE html>
+<!DOCTYPE>
 <html>
-<head>
 
-    <title>Map Project</title>
-    <link rel="stylesheet" href="css/main.css">
-    <link rel="stylesheet" href="css/user-page.css">
-    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAZdL4fiEKfMWYxi2PJfyMpPMuZefnvhG0"></script>
+<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAZdL4fiEKfMWYxi2PJfyMpPMuZefnvhG0"></script>
+    <head>
+        <link rel="stylesheet" href="css/main.css">
+     
+        <link rel="stylesheet" href="/css/user-page.css">
+    </head>
+
+    <body>
+        <h1>EVENTS</h1>
+
+        <li><a href="index.jsp">HOME</a></li>
+        <li><a href="/map.html">EVENTS</a></li>
+        <li><a href="/feed.jsp">FEED</a></li>
+        
     <script>
-        let map;
         function createMap(){
-            map = new google.maps.Map(document.getElementById('map'), {
-                center: {lat: 37.422, lng: -122.084},
-                zoom: 16
-            });
-            const trexMarker = new google.maps.Marker({
-                position: {lat: 37.421903, lng: -122.084674},
-                map: map,
-                title: 'Stan the T-Rex'
-            });
-            var trexInfoWindow = new google.maps.InfoWindow({
-                content: 'This is Stan, the T-Rex statue.'
-            });
-            trexMarker.addListener('click', function() {
-                trexInfoWindow.open(map, trexMarker);
-            });
-        }
+            let map;
+
+      map = new google.maps.Map(document.getElementById('map'), {
+        center: {lat: 38.5949, lng: -94.8923},
+        zoom: 4
+      });
+   
+      map.addListener('click', (event) => {
+        createMarkerForEdit(map, event.latLng.lat(), event.latLng.lng());
+      });
+      
+     //fetchMarkers();
+    }
     </script>
     <style>
-    #map{
-      width: 500px;
-      height: 500px;
-      border: thin solid black;
-    }
-  </style>
-</head>
+        #map{
+            width: 500px;
+            height: 500px;
+        }
+        .button{
+            width: 70px;
+        height: 20px;
+           // background-color: black;
+            padding-left: 10px;
+        }
+    </style>
     <body onload="createMap();">
-        <nav>
-            <ul id="navigation">
-                <li><a href="/">Home</a></li>
-            </ul>
-        </nav>
+        <br>
+        <div id="map"></div>
+        <br>
+        <div>
+            <a>Name of Event: </a>
+            <input type="text" alignment="center" value="Name of Event"/>
+            
+            <br><br>
+            <a>Time: </a>
+            <input type="text" value="Time"/>
+           
+            <br>
+            <br>
+            <a>Date: </a>
+            <input type="text" value="Date"/>
+          
+            <br>
+            <br>
+            <a>Purpose: </a>
+            <input type="text" value="Purpose"/>
+            <br>
+            <br>
+            <button class="button">Submit</button>
+        </div>
+        <br>
     </body>
 </html>
