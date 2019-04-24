@@ -29,7 +29,7 @@
       });
     }
     
-    function createMarkerForDisplay(map, lat, lng, content){
+    function createMarkerForDisplay(map, lat, lng, nameEvent, timeEvent, dateEvent, content){
 
       const marker = new google.maps.Marker({
         position: {lat: lat, lng: lng},
@@ -37,18 +37,25 @@
       });
               
       var infoWindow = new google.maps.InfoWindow({                             //could use this to display event info
-        content: content
+        content: nameEvent
       });
       marker.addListener('click', () => {
         infoWindow.open(map, marker);
       });
     }
     
-    function postMarker(lat, lng, content){
+    function postMarker(lat, lng, nameEvent, timeEvent, dateEvent, content){
+        
+      
+        
       const params = new URLSearchParams();
       params.append('lat', lat);
       params.append('lng', lng);
+      params.append('nameEvent', nameEvent);
+      params.append('timeEvent', timeEvent);
+      params.append('dateEvent', dateEvent);
       params.append('content', content);
+      //params.append('purposeEvent', purposeEvent)
       
       fetch('/user-markers', {
         method: 'POST',
@@ -108,18 +115,18 @@ function submit(){          //if submit button is pressed, then this function is
     let nameEvent;
     let timeEvent;
     let dateEvent;
-    let purposeEvent;
+    let content;
    
     nameEvent = document.getElementById("nameEvent").value;
     timeEvent = document.getElementById("timeEvent").value;
     dateEvent = document.getElementById("dateEvent").value;
-    purposeEventEvent = document.getElementById("purposeEvent").value;
+    content = document.getElementById("purposeEvent").value;
     
-    dateEvent = document.getElementById("dateEvent").value = longitude;
-    document.getElementById("purposeEvent").value = latitude;
-    createMarkerForDisplay(map, lat, lng, textBox.value);
+    //dateEvent = document.getElementById("dateEvent").value = longitude;
+    //document.getElementById("purposeEvent").value = latitude;
+    createMarkerForDisplay(map, lat, lng, nameEvent, timeEvent, dateEvent, content);
     editMarker.setMap(null);
-    postMarker(lat, lng, textBox.value);
+    postMarker(lat, lng, lat, lng, nameEvent, timeEvent, dateEvent, content);
     
 
 

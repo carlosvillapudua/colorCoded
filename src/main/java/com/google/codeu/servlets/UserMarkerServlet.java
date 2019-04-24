@@ -40,9 +40,12 @@ public class UserMarkerServlet extends HttpServlet{
 	public void doPost(HttpServletRequest request, HttpServletResponse response) {
 		double lat = Double.parseDouble(request.getParameter("lat"));
 		double lng = Double.parseDouble(request.getParameter("lng"));
+		String nameEvent = Jsoup.clean(request.getParameter("nameEvent"), Whitelist.none());
+		String timeEvent = Jsoup.clean(request.getParameter("timeEvent"), Whitelist.none());
+		String dateEvent = Jsoup.clean(request.getParameter("dateEvent"), Whitelist.none());
 		String content = Jsoup.clean(request.getParameter("content"), Whitelist.none());
 		
-		UserMarker marker = new UserMarker(lat, lng, content, content, content, content, content);
+		UserMarker marker = new UserMarker(lat, lng, nameEvent, timeEvent, dateEvent, content);
 		datastore.storeMarker(marker);		
 	}	
 }

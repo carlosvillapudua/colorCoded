@@ -209,9 +209,12 @@ public class Datastore {
 			try {
 				double lat = (double) entity.getProperty("lat");
 				double lng = (double) entity.getProperty("lng");
+				String nameEvent = (String) entity.getProperty("nameEvent");
+				String timeEvent = (String) entity. getProperty("timeEvent");
+				String dateEvent = (String) entity.getProperty("dateEvent");
 				String content = (String) entity.getProperty("content");
 
-				UserMarker marker = new UserMarker(lat, lng, content, "hello", "hello", "hello1", "hello2");
+				UserMarker marker = new UserMarker(lat, lng, nameEvent, timeEvent, dateEvent, content);
 				markers.add(marker);
 			} catch (Exception e) {
 				System.err.println("Error reading marker.");
