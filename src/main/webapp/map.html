@@ -5,11 +5,25 @@
     <link rel="stylesheet" href="css/main.css">
         <link rel="stylesheet" href="/css/user-page.css">
     <head>
-        <li><a href="splashScreen.html">HOME</a></li>
-        <li><a href="mapEvents.html">EVENTS</a></li>
-        <li><a href="photoFeed.html">FEED</a></li>
-        <li><a href="resources.html">RESOURCES</a></li>
-    </head>
+<!--
+        <li><a href="/index.jsp">HOME</a></li>
+        <li><a href="/map.html">EVENTS</a></li>
+        <li><a href="/feed.jsp">FEED</a></li>
+        <li><a href="/">RESOURCES</a></li>
+-->
+             <ul id="navigation">
+                <li><a href="/">Home</a></li>
+                <li><a href="/map.html">Map</a></li>
+
+                    <li><a href="/users/<%=username%>">Personal Messages</a></li>
+                    <li><a href="/saveprofile">Your Profile</a></li>
+                    <li><a href="/logout">Logout</a></li>
+
+<!--                    <li><a href="/login">Login</a></li>-->
+
+
+            </ul>
+   
     <style>
         #map{
             width: 500px;
