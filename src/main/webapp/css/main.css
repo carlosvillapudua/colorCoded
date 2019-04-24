@@ -45,14 +45,25 @@ input[type=submit] {
   color:black;
 }
 
+input[type=text]{
+    align-content: center;
+    align-items: center;
+    text-align: center;
+    vertical-align: center;
+    align-self: center;
+}
+
 #content {
   max-width: 600px;
 align-content: center;
     align-items: center;
   margin-left: auto;
   margin-right: auto;
+padding-left: 100px;
 }
-
+#entryInfo{
+    text-align: left;
+}
 
 #message-input {
   height: 100px;

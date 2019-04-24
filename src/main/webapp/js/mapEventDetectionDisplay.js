@@ -1,7 +1,7 @@
     let editMarker;
     let map;
-    let latitude;
-    let longitude;
+    let lat;
+    let lng;
   
     function createMap(){
 
@@ -12,8 +12,8 @@
    
       map.addListener('click', (event) => {
         createMarkerForEdit(map, event.latLng.lat(), event.latLng.lng());
-          latitude = event.latLng.lat();
-          longitude = event.latLng.lng();
+          lat = event.latLng.lat();
+          lng = event.latLng.lng();
       });
       
      fetchMarkers();
@@ -24,7 +24,7 @@
         return response.json();
       }).then((markers) => {
         markers.forEach((marker) => {
-         createMarkerForDisplay(map, marker.lat, marker.lng, marker.content)
+         createMarkerForDisplay(map, marker.lat, marker.lng, marker.name, marker.time, marker.date, marker.content)
         });  
       });
     }
