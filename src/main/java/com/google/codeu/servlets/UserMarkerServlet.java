@@ -42,7 +42,7 @@ public class UserMarkerServlet extends HttpServlet{
 		double lng = Double.parseDouble(request.getParameter("lng"));
 		String content = Jsoup.clean(request.getParameter("content"), Whitelist.none());
 		
-		UserMarker marker = new UserMarker(lat, lng, content);
+		UserMarker marker = new UserMarker(lat, lng, content, content, content, content, content);
 		datastore.storeMarker(marker);		
 	}	
 }

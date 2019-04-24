@@ -1,36 +1,15 @@
-<!DOCTYPE>
+<!DOCTYPE html>
 <html>
-
 <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAZdL4fiEKfMWYxi2PJfyMpPMuZefnvhG0"></script>
-    <head>
-        <link rel="stylesheet" href="css/main.css">
-     
+    <script src="js/mapEventDetectionDisplay.js"></script>
+    <link rel="stylesheet" href="css/main.css">
         <link rel="stylesheet" href="/css/user-page.css">
+    <head>
+        <li><a href="splashScreen.html">HOME</a></li>
+        <li><a href="mapEvents.html">EVENTS</a></li>
+        <li><a href="photoFeed.html">FEED</a></li>
+        <li><a href="resources.html">RESOURCES</a></li>
     </head>
-
-    <body>
-        <h1>EVENTS</h1>
-
-        <li><a href="index.jsp">Home</a></li>
-        <li><a href="/map.html">Events</a></li>
-        <li><a href="/feed.jsp">Feed</a></li>
-        
-    <script>
-        function createMap(){
-            let map;
-
-      map = new google.maps.Map(document.getElementById('map'), {
-        center: {lat: 38.5949, lng: -94.8923},
-        zoom: 4
-      });
-   
-      map.addListener('click', (event) => {
-        createMarkerForEdit(map, event.latLng.lat(), event.latLng.lng());
-      });
-      
-     //fetchMarkers();
-    }
-    </script>
     <style>
         #map{
             width: 500px;
@@ -44,30 +23,32 @@
         }
     </style>
     <body onload="createMap();">
+         <h1>EVENTS</h1>
         <br>
         <div id="map"></div>
         <br>
         <div>
             <a>Name of Event: </a>
-            <input type="text" alignment="center" value="Name of Event"/>
+            <input id="nameEvent" type="text" alignment="center" value="Name of Event"/>
             
             <br><br>
             <a>Time: </a>
-            <input type="text" value="Time"/>
+            <input id="timeEvent" type="text" value="Time"/>
            
             <br>
             <br>
             <a>Date: </a>
-            <input type="text" value="Date"/>
+            <input id="dateEvent" type="text" value="Date"/>
           
             <br>
             <br>
             <a>Purpose: </a>
-            <input type="text" value="Purpose"/>
+            <input id="purposeEvent" type="text" value="Purpose"/>
             <br>
             <br>
-            <button class="button">Submit</button>
+            <button id="submitButton" class="button" onclick="submit();">Submit</button>
         </div>
         <br>
+
     </body>
 </html>

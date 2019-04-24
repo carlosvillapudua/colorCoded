@@ -1,4 +1,4 @@
-    let editMarker;
+  let editMarker;
     let map;
     let latitude;
     let longitude;
@@ -117,9 +117,6 @@ function submit(){          //if submit button is pressed, then this function is
     
     dateEvent = document.getElementById("dateEvent").value = longitude;
     document.getElementById("purposeEvent").value = latitude;
-    createMarkerForDisplay(map, lat, lng, textBox.value);
-    editMarker.setMap(null);
-    postMarker(lat, lng, textBox.value);
     
 
 
