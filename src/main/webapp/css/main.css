@@ -1,6 +1,7 @@
 body {
   margin: 0;
-  background-image: url("https://images.wallpaperscraft.com/image/dog_booth_art_minimalism_93338_1920x1080.jpg");
+/*  background-image: url("https://images.wallpaperscraft.com/image/dog_booth_art_minimalism_93338_1920x1080.jpg");*/
+    background-image: url(../img/dooglerIcons.png);
   font-family: sans-serif;
   color: black;
   padding-left: 20px;
@@ -43,16 +44,37 @@ input[type=submit] {
   font-size: 14pt;
   border-radius: 7px;
   color:black;
+    align-content: center;
+    
 }
 
 input[type=text]{
-    align-content: center;
-    align-items: center;
-    text-align: center;
-    vertical-align: center;
-    align-self: center;
+    width:180px;
+	height:20px;
+	border-radius:10px;
+	float:right;
+	margin-left:2px;
+    margin-right: 250px;
+  position: relative;
+    border: 2px solid;
+    border-color: darkgray;
+    background-color: lightgray;
+
+}
+label{
+position:relative;
+width:300px;
+border:2px dotted black;
+margin:20px;
+padding:5px;
+font-size:20px;
+    font-weight: 200;
 }
 
+
+#map{
+    border-radius: 25px;
+}
 #content {
   max-width: 600px;
 align-content: center;
@@ -69,6 +91,16 @@ padding-left: 100px;
   height: 100px;
   width: 99%;
   border-radius: 10px;
+}
+#submitButton{
+    border-radius: 20px;
+    color: white;
+    background-color: black;
+    font-size: 15px;
+    box-sizing: content-box;
+    border: 0px solid;
+    margin-top: 20px;
+    margin-left: 215px;
 }
 
 .message-header {
