@@ -1,7 +1,7 @@
 body {
   margin: 0;
 /*  background-image: url("https://images.wallpaperscraft.com/image/dog_booth_art_minimalism_93338_1920x1080.jpg");*/
-    background-image: url(../img/dooglerIcons.png);
+    background-image: url(../img/dooglerIcons-v2.png);
   font-family: sans-serif;
   color: black;
   padding-left: 20px;
@@ -9,10 +9,10 @@ body {
   align-content: center;
 }
 
-body.mainPage {
+#mainPage {
   margin: 0;
 /*  background-image: url("https://images.wallpaperscraft.com/image/dog_booth_art_minimalism_93338_1920x1080.jpg");*/
-    background-image: url(../img/dooglerLogo-01.png);
+    background-image: url(../img/dooglerLogo_v2.png);
   font-family: sans-serif;
   color: black;
   padding-left: 20px;
@@ -47,6 +47,30 @@ h1{
 h2 {
   margin: 0;
 }
+ul {
+  list-style-type: none;
+  margin: 0;
+  padding: 0;
+  overflow: hidden;
+  background-color: #f1ae8a;
+}
+
+li {
+  float: left;
+}
+
+li a {
+  display: block;
+  color: white;
+  text-align: center;
+  padding: 14px 16px;
+  text-decoration: none;
+}
+
+/* Change the link color to #111 (black) on hover */
+li a:hover {
+  background-color: #f17224;
+}
 
 input[type=submit] {
   background-color: #9abfb6;
@@ -75,7 +99,7 @@ input[type=text]{
     background-color: lightgray;
 
 }
-#mapInput{
+input[type=text].mapInput{
     width:180px;
 	height:20px;
 	border-radius:10px;

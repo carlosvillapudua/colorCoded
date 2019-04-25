@@ -115,7 +115,7 @@
 
 
     </head>
-    <body background="/img/dooglerLogo-01.png" data-user="<%=user%>" onload="buildUI();">
+    <body id="mainPage" data-user="<%=user%>" onload="buildUI();">
         <nav>
             <ul id="navigation">
                 <li><a href="/">Home</a></li>
