@@ -9,13 +9,25 @@ body {
   align-content: center;
 }
 
+body.mainPage {
+  margin: 0;
+/*  background-image: url("https://images.wallpaperscraft.com/image/dog_booth_art_minimalism_93338_1920x1080.jpg");*/
+    background-image: url(../img/dooglerLogo-01.png);
+  font-family: sans-serif;
+  color: black;
+  padding-left: 20px;
+  padding-right: 20px;
+  align-content: center;
+}
+
 p{
     color:black;
     font-family: sans-serif;
 }
 
 nav {
-  background-color: rgb(100, 149, 237);
+/*  background-color: rgb(100, 149, 237);*/
+    background: url(../img/dooglerLogo-01.jpg)
   font-size: 18pt;
   padding: 10px;
   color: black;

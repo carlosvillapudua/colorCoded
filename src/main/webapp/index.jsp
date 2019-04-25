@@ -115,7 +115,7 @@
 
 
     </head>
-    <body data-user="<%=user%>" onload="buildUI();">
+    <body class="mainPage" data-user="<%=user%>" onload="buildUI();">
         <nav>
             <ul id="navigation">
                 <li><a href="/">Home</a></li>
