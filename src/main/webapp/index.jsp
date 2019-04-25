@@ -73,9 +73,9 @@
                 usernameDiv.classList.add("left-align");
                 usernameDiv.appendChild(document.createTextNode(message.user));
 
-                const timeDiv = document.createElement('div');
-                timeDiv.classList.add('right-align');
-                timeDiv.appendChild(document.createTextNode(new Date(message.timestamp)));
+//                const timeDiv = document.createElement('div');
+//                timeDiv.classList.add('right-align');
+//                timeDiv.appendChild(document.createTextNode(new Date(message.timestamp)));
 
                 const headerDiv = document.createElement('div');
                 headerDiv.classList.add('message-header');
